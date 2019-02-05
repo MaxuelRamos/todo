@@ -3,11 +3,9 @@ import React, { Component } from 'react';
 class App extends Component {
   render() {
     return (
-      <div >
+      <div>
         <header>
-          <p>
-           teste
-          </p>
+          <p>teste</p>
         </header>
       </div>
     );
