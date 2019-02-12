@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Menu } from 'antd';
+import uuid from 'uuid';
+import ProjectList from './ProjectList';
+import ProjectForm from './ProjectForm';
 
 export default class MenuBar extends Component {
   constructor(props) {
@@ -9,38 +11,33 @@ export default class MenuBar extends Component {
       projects: [
         {
           name: 'teste 1',
-          id: 1,
+          id: uuid(),
         },
         {
           name: ' teste 2',
-          id: 2,
+          id: uuid(),
         },
       ],
-      current: '',
     };
   }
 
-  handleClick = (e) => {
-    console.log('click ', e);
-    this.setState({
-      current: e.key,
-    });
+  onSave = (name) => {
+    this.setState(prevState => ({
+      projects: [...prevState.projects, { name, id: uuid() }],
+    }));
+  };
+
+  onDelete = (id) => {
+    const { projects } = this.state;
+    this.setState({ projects: projects.filter(p => p.id !== id) });
   };
 
   render() {
-    const { projects, current } = this.state;
+    const { projects } = this.state;
     return (
       <div>
-        <Menu
-          onClick={this.handleClick}
-          selectedKeys={[current]}
-          style={{ width: 256 }}
-          mode="inline"
-        >
-          {projects.map(p => (
-            <Menu.Item key={p.id}>{p.name}</Menu.Item>
-          ))}
-        </Menu>
+        <ProjectList projects={projects} onDelete={this.onDelete} />
+        <ProjectForm onSave={this.onSave} />
       </div>
     );
   }
