@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import uuid from 'uuid';
+import { addProject } from '../actions/projectsActions';
 
-export default class ProjectForm extends Component {
+class ProjectForm extends Component {
   constructor(props) {
     super(props);
 
@@ -18,9 +22,9 @@ export default class ProjectForm extends Component {
     e.preventDefault();
 
     const { name } = this.state;
-    const { onSave } = this.props;
+    const { addProject } = this.props;
 
-    onSave(name);
+    addProject({ id: uuid(), name });
 
     this.setState({ name: '' });
   };
@@ -42,6 +46,13 @@ export default class ProjectForm extends Component {
   }
 }
 
+const mapDispatchToProps = dispatch => bindActionCreators({ addProject }, dispatch);
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ProjectForm);
+
 ProjectForm.propTypes = {
-  onSave: PropTypes.func.isRequired,
+  addProject: PropTypes.func.isRequired,
 };

@@ -4,6 +4,7 @@
   "rules": {
     "linebreak-style": 0,
     "global-require": 0,
+    "no-shadow": "off",
     "eslint linebreak-style": [0, "error", "windows"]
   }
 }
