@@ -1,10 +1,18 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
+  "globals": {
+    "document": true,
+    "fetch": true,
+    "localStorage": true,
+    "window": true,
+    "FormData": true
+  },
   "rules": {
     "linebreak-style": 0,
     "global-require": 0,
     "no-shadow": "off",
-    "eslint linebreak-style": [0, "error", "windows"]
+    "eslint linebreak-style": [0, "error", "windows"],
+    "max-len": ["error", 200]
   }
 }
