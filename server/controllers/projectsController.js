@@ -1,21 +1,19 @@
-const uuid = require("uuid");
-
-const testes = [
-  {
-    name: "asd",
-    id: uuid()
-  }
-];
+const uuid = require('uuid');
+const db = require('../db/db');
 
 module.exports = {
   async index(req, res) {
-    return res.json(testes);
+    return res.json(db.get('projects').value());
   },
 
   async store(req, res) {
-    req.body.id = uuid();
-    testes.push(req.body);
+    const proj = req.body;
+    proj.id = uuid();
 
-    return res.json(req.body);
-  }
+    db.get('projects')
+      .push(proj)
+      .write();
+
+    return res.json(proj);
+  },
 };

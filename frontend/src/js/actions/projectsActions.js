@@ -18,7 +18,7 @@ export function deleteProject(payload) {
 }
 
 const fetchingProjects = () => ({ type: FETCH_PROJECTS_REQUEST });
-const fetchSucceeded = projects => ({ type: FETCH_PROJECTS_SUCCESS, projects });
+const fetchSucceeded = payload => ({ type: FETCH_PROJECTS_SUCCESS, payload });
 const fetchFailed = error => ({ type: FETCH_PROJECTS_FAILED, error });
 
 export function fetchProjects() {
