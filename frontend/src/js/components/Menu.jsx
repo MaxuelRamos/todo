@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import ProjectList from './ProjectList';
 import ProjectForm from './ProjectForm';
-import { deleteProject, fetchProjects } from '../actions/projectsActions';
+import fetchProjects from '../actions/projectsActions';
 
 class MenuBar extends Component {
   componentDidMount() {
@@ -14,10 +14,10 @@ class MenuBar extends Component {
   }
 
   render() {
-    const { projects, deleteProject } = this.props;
+    const { projects } = this.props;
     return (
       <div>
-        <ProjectList projects={projects} onDelete={deleteProject} />
+        <ProjectList projects={projects} />
         <ProjectForm />
       </div>
     );
@@ -28,7 +28,7 @@ const mapStateToProps = store => ({
   projects: store.projects.projects,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchProjects, deleteProject }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchProjects }, dispatch);
 
 MenuBar.propTypes = {
   projects: PropTypes.arrayOf(
@@ -37,7 +37,7 @@ MenuBar.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  deleteProject: PropTypes.func.isRequired,
+  // deleteProject: PropTypes.func.isRequired,
   fetchProjects: PropTypes.func.isRequired,
 };
 

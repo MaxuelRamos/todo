@@ -11,13 +11,12 @@ routes.get('/api/projects', projectsController.index);
 routes.post('/api/projects', projectsController.store);
 
 // Get by id
-app.get('/api/projects/:id', projectsController.findOne);
+routes.get('/api/projects/:id', projectsController.findOne);
 
 // Update
-app.put('/api/projects/:id', projectsController.update);
+routes.put('/api/projects/:id', projectsController.update);
 
 // Delete
-app.delete('/api/projects/:id', projectsController.delete);
-}
+routes.delete('/api/projects/:id', projectsController.delete);
 
 module.exports = routes;

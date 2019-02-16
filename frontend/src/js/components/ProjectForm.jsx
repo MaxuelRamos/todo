@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import uuid from 'uuid';
-import { addProject } from '../actions/projectsActions';
+// import PropTypes from 'prop-types';
+// import { bindActionCreators } from 'redux';
+// import { connect } from 'react-redux';
+// import uuid from 'uuid';
+// import { addProject } from '../actions/projectsActions';
 
 class ProjectForm extends Component {
   constructor(props) {
@@ -21,10 +21,10 @@ class ProjectForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { name } = this.state;
-    const { addProject } = this.props;
+    // const { name } = this.state;
+    // const { addProject } = this.props;
 
-    addProject({ id: uuid(), name });
+    // addProject({ id: uuid(), name });
 
     this.setState({ name: '' });
   };
@@ -46,13 +46,10 @@ class ProjectForm extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ addProject }, dispatch);
+// const mapDispatchToProps = dispatch => bindActionCreators({ addProject }, dispatch);
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ProjectForm);
+export default ProjectForm;
 
-ProjectForm.propTypes = {
-  addProject: PropTypes.func.isRequired,
-};
+// ProjectForm.propTypes = {
+//   addProject: PropTypes.func.isRequired,
+// };
