@@ -3,42 +3,39 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
-import ProjectList from './ProjectList';
-import ProjectForm from './ProjectForm';
-import fetchProjects from '../actions/projectsActions';
+import CompaniesList from './CompaniesList';
+import fetchCompanies from '../actions/companiesActions';
 
 class MenuBar extends Component {
   componentDidMount() {
-    const { fetchProjects } = this.props;
-    fetchProjects();
+    const { fetchCompanies } = this.props;
+    fetchCompanies();
   }
 
   render() {
-    const { projects } = this.props;
+    const { companies } = this.props;
     return (
       <div>
-        <ProjectList projects={projects} />
-        <ProjectForm />
+        <CompaniesList companies={companies} />
       </div>
     );
   }
 }
 
 const mapStateToProps = store => ({
-  projects: store.projects.projects,
+  companies: store.companies.companies,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchProjects }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchCompanies }, dispatch);
 
 MenuBar.propTypes = {
-  projects: PropTypes.arrayOf(
+  companies: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  // deleteProject: PropTypes.func.isRequired,
-  fetchProjects: PropTypes.func.isRequired,
+  fetchCompanies: PropTypes.func.isRequired,
 };
 
 export default connect(

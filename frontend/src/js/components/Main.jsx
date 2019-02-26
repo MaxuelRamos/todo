@@ -1,10 +1,21 @@
 import React from 'react';
-import Menu from './Menu';
 
-export default function Main() {
+import TopBar from './TopBar';
+import MenuBar from './MenuBar';
+
+const style = {
+  root: {
+    display: 'flex',
+  },
+};
+
+function Main() {
   return (
-    <div>
-      <Menu />
+    <div className={style.root}>
+      <TopBar />
+      <MenuBar />
     </div>
   );
 }
+
+export default Main;
