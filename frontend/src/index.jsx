@@ -1,13 +1,47 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { createLogger } from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 import App from './App';
+import Login from './js/components/login/Login';
 import * as serviceWorker from './serviceWorker';
-import store from './js/store';
+import reducers from './js/reducers';
+import ProtectedRoute from './js/components/routes/ProtectedRoute';
+
+const isDebugging = process.env.NODE_ENV === 'development';
+
+// Configura o logger para o redux que vai apresentar as actions no console do browser
+const logger = createLogger({
+  predicate: () => isDebugging,
+  duration: true,
+  timestamp: true,
+  collapsed: true,
+});
+
+// Configura a extensão do redux-devtools, se estiver disponível
+// http://zalmoxisus.github.io/redux-devtools-extension/
+let composeEnhancers = compose;
+if (isDebugging) {
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+}
+
+// Cria o store do redux à partir dos reducers, plugando os middlewares do projeto
+const store = createStore(
+  reducers,
+  composeEnhancers(applyMiddleware(logger, thunkMiddleware)),
+);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <div>
+        <ProtectedRoute exact path="/" component={App} />
+        <Route path="/login" component={Login} />
+      </div>
+    </Router>
   </Provider>,
   document.getElementById('root'),
 );

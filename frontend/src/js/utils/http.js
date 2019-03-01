@@ -23,8 +23,13 @@ export function handleError(response) {
  * Já faz o tratamento de erro na resposta.
  */
 export function jsonFetch(url) {
+  const token = localStorage.getItem('id_token');
+
   return fetch(url, {
     method: 'GET',
+    headers: {
+      Authorization: token,
+    },
   }).then(resp => handleError(resp).json());
 }
 
@@ -34,11 +39,14 @@ export function jsonFetch(url) {
  * Já faz o tratamento de erro na resposta.
  */
 export function jsonPatch(url, body) {
+  const token = localStorage.getItem('id_token');
+
   return fetch(url, {
     method: 'PATCH',
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
+      Authorization: token,
     },
   }).then(resp => handleError(resp).json());
 }
@@ -49,11 +57,14 @@ export function jsonPatch(url, body) {
  * Já faz o tratamento de erro na resposta.
  */
 export function jsonPost(url, body) {
+  const token = localStorage.getItem('id_token');
+
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
+      Authorization: token,
     },
   }).then(resp => handleError(resp).json());
 }
@@ -64,18 +75,40 @@ export function jsonPost(url, body) {
  * Já faz o tratamento de erro na resposta.
  */
 export function jsonPut(url, body) {
+  const token = localStorage.getItem('id_token');
+
   return fetch(url, {
     method: 'PUT',
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
+      Authorization: token,
     },
   }).then(resp => handleError(resp).json());
 }
 
 export function jsonDelete(url) {
+  const token = localStorage.getItem('id_token');
+
   return fetch(url, {
     method: 'DELETE',
-    headers: {},
+    headers: {
+      Authorization: token,
+    },
+  }).then(resp => handleError(resp));
+}
+
+export function jsonUpload(url, body) {
+  const token = localStorage.getItem('id_token');
+  const data = new FormData();
+
+  Object.keys(body).forEach(key => data.append(key, body[key]));
+
+  return fetch(url, {
+    method: 'POST',
+    body: data,
+    headers: {
+      Authorization: token,
+    },
   }).then(resp => handleError(resp));
 }
