@@ -9,7 +9,7 @@ import {
 } from '../constants/authConstants';
 
 const initialState = {
-  processing: false,
+  loading: false,
   isAuthenticated: !!localStorage.getItem('id_token'),
 };
 
@@ -17,42 +17,42 @@ function auth(state = initialState, action) {
   switch (action.type) {
     case LOGIN_REQUEST:
       return Object.assign({}, state, {
-        processing: true,
+        loading: true,
         isAuthenticated: false,
       });
 
     // Login e Logout
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
-        processing: false,
+        loading: false,
         isAuthenticated: true,
         errorMessage: '',
       });
     case LOGIN_FAILURE:
       return Object.assign({}, state, {
-        processing: false,
+        loading: false,
         isAuthenticated: false,
         errorMessage: action.message,
       });
     case LOGOUT:
       return Object.assign({}, state, {
-        processing: false,
+        loading: false,
         isAuthenticated: false,
       });
 
     // Load Authenticated user
     case LOAD_AUTHENTICATED_USER_REQUEST:
       return Object.assign({}, state, {
-        processing: true,
+        loading: true,
       });
     case LOAD_AUTHENTICATED_USER_SUCCESS:
       return Object.assign({}, state, {
         authenticatedUser: action.user,
-        processing: false,
+        loading: false,
       });
     case LOAD_AUTHENTICATED_USER_FAILURE:
       return Object.assign({}, state, {
-        processing: false,
+        loading: false,
       });
     default:
       return state;

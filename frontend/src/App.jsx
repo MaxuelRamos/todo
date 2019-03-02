@@ -1,20 +1,46 @@
-import React from 'react';
-// import Main from './js/components/Main';
+import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { logoutUser } from './js/actions/authActions';
 
-// const checkAuth = (nextState, replace) => {
-//   if (!store.getState().auth.authenticated) {
-//     replace({
-//       pathname: '/login',
-//       state: { nextPathname: nextState.location.pathname },
-//     });
-//   }
-// };
+class App extends Component {
+  onLogOut = () => {
+    const { logoutUser, history } = this.props;
 
-export default function App() {
-  return (
-    <div>
-      {/* <Main /> */}
-      {'Main'}
-    </div>
-  );
+    logoutUser(history);
+  };
+
+  render() {
+    return (
+      <div>
+        {/* <Main /> */}
+        {'Main'}
+        <Button variant="contained" type="submit" onClick={this.onLogOut}>
+          {'Logout'}
+        </Button>
+      </div>
+    );
+  }
 }
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    logoutUser,
+  },
+  dispatch,
+);
+
+App.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  history: PropTypes.shape({}),
+};
+
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps,
+  )(App),
+);

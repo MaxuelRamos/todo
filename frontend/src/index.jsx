@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import App from './App';
@@ -10,6 +10,7 @@ import Login from './js/components/login/Login';
 import * as serviceWorker from './serviceWorker';
 import reducers from './js/reducers';
 import ProtectedRoute from './js/components/routes/ProtectedRoute';
+import history from './js/history/history';
 
 const isDebugging = process.env.NODE_ENV === 'development';
 
@@ -36,7 +37,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
+    <Router history={history}>
       <div>
         <ProtectedRoute exact path="/" component={App} />
         <Route path="/login" component={Login} />

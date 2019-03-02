@@ -1,17 +1,15 @@
-import { push } from 'react-router-redux';
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  LOAD_AUTHENTICATED_USER_REQUEST,
-  LOAD_AUTHENTICATED_USER_SUCCESS,
-  LOAD_AUTHENTICATED_USER_FAILURE,
+  // LOAD_AUTHENTICATED_USER_REQUEST,
+  // LOAD_AUTHENTICATED_USER_SUCCESS,
+  // LOAD_AUTHENTICATED_USER_FAILURE,
   LOGOUT,
 } from '../constants/authConstants';
 
-import { jsonFetch, jsonPut } from '../utils/http';
-import { displayError } from './appActions';
-
+import { jsonPut } from '../utils/http';
+import history from '../history/history';
 
 const requestLogin = credentials => ({ type: LOGIN_REQUEST, credentials });
 const receiveLogin = token => ({ type: LOGIN_SUCCESS, id_token: token });
@@ -29,8 +27,8 @@ export function loginUser(credentials) {
         localStorage.setItem('id_token', json.token);
 
         // Dispatch the success action
+        history.push('/');
         dispatch(receiveLogin(json));
-        dispatch(push('/'));
       })
       .catch(error => dispatch(loginError(error.message)));
   };
@@ -39,8 +37,8 @@ export function loginUser(credentials) {
 export function logoutUser() {
   return (dispatch) => {
     localStorage.removeItem('id_token');
+    history.push('/login');
     dispatch(logout());
-    dispatch(push('/login'));
   };
 }
 
@@ -48,35 +46,35 @@ export function logoutUser() {
  *  GET  /api/auth
  */
 
-const loadingAuthenticatedUser = () => ({
-  type: LOAD_AUTHENTICATED_USER_REQUEST,
-});
-const loadAuthenticatedUserSucceeded = user => ({
-  type: LOAD_AUTHENTICATED_USER_SUCCESS,
-  user,
-});
-const loadAuthenticatedUserFailed = error => ({
-  type: LOAD_AUTHENTICATED_USER_FAILURE,
-  error,
-});
+// const loadingAuthenticatedUser = () => ({
+//   type: LOAD_AUTHENTICATED_USER_REQUEST,
+// });
+// const loadAuthenticatedUserSucceeded = user => ({
+//   type: LOAD_AUTHENTICATED_USER_SUCCESS,
+//   user,
+// });
+// const loadAuthenticatedUserFailed = error => ({
+//   type: LOAD_AUTHENTICATED_USER_FAILURE,
+//   error,
+// });
 
-export function loadAuthenticatedUser() {
-  return (dispatch) => {
-    dispatch(loadingAuthenticatedUser());
-    return jsonFetch('/api/auth')
-      .then(json => dispatch(loadAuthenticatedUserSucceeded(json)))
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          localStorage.removeItem('id_token');
-          dispatch(logout());
-          dispatch(push('/login'));
-        } else {
-          const message = `Failed to load the authenticated user. ${
-            error.message
-          }`;
-          dispatch(displayError(message));
-          dispatch(loadAuthenticatedUserFailed(error));
-        }
-      });
-  };
-}
+// export function loadAuthenticatedUser(history) {
+//   return (dispatch) => {
+//     dispatch(loadingAuthenticatedUser());
+//     return jsonFetch('/api/auth')
+//       .then(json => dispatch(loadAuthenticatedUserSucceeded(json)))
+//       .catch((error) => {
+//         if (error.response && error.response.status === 401) {
+//           localStorage.removeItem('id_token');
+//           dispatch(logout());
+//           history.push('/login');
+//         } else {
+//           // const message = `Failed to load the authenticated user. ${
+//           //   error.message
+//           // }`;
+//           // dispatch(displayError(message));
+//           dispatch(loadAuthenticatedUserFailed(error));
+//         }
+//       });
+//   };
+// }
