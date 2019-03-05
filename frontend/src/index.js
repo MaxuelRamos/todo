@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { routerMiddleware } from 'connected-react-router';
 import * as serviceWorker from './serviceWorker';
 import reducers from './js/reducers';
 import Routes from './js/routes';
