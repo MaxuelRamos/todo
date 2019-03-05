@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { loginUser } from '../../actions/authActions';
+import { loginUser } from '../../operators/authOperator';
 
 class Login extends Component {
   constructor(props) {

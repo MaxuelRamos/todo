@@ -6,7 +6,7 @@ import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { routerMiddleware } from 'connected-react-router';
 import * as serviceWorker from './serviceWorker';
-import reducers from './js/reducers';
+import reducers from './js/ducks';
 import Routes from './js/routes';
 
 import history from './js/routes/history';

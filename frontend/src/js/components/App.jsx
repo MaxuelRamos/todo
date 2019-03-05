@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { logoutUser } from '../actions/authActions';
+import { logoutUser } from '../operators/authOperator';
 
 class App extends Component {
   onLogOut = () => {
