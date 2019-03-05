@@ -2,9 +2,6 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  LOAD_AUTHENTICATED_USER_REQUEST,
-  LOAD_AUTHENTICATED_USER_SUCCESS,
-  LOAD_AUTHENTICATED_USER_FAILURE,
   LOGOUT,
 } from '../constants/authConstants';
 
@@ -34,26 +31,13 @@ function auth(state = initialState, action) {
         isAuthenticated: false,
         errorMessage: action.message,
       });
+
     case LOGOUT:
       return Object.assign({}, state, {
         loading: false,
         isAuthenticated: false,
       });
 
-    // Load Authenticated user
-    case LOAD_AUTHENTICATED_USER_REQUEST:
-      return Object.assign({}, state, {
-        loading: true,
-      });
-    case LOAD_AUTHENTICATED_USER_SUCCESS:
-      return Object.assign({}, state, {
-        authenticatedUser: action.user,
-        loading: false,
-      });
-    case LOAD_AUTHENTICATED_USER_FAILURE:
-      return Object.assign({}, state, {
-        loading: false,
-      });
     default:
       return state;
   }

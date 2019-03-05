@@ -14,6 +14,7 @@
     "no-shadow": "off",
     "eslint linebreak-style": [0, "error", "windows"],
     "max-len": ["error", 200],
-    "react/require-default-props": false
+    "react/require-default-props": false,
+    "react/jsx-filename-extension": "off"
   }
 }
