@@ -17,7 +17,7 @@ public class AuthIntegrationTest extends MvcContextIntegrationTest {
      * PUT /auth
      */
     @Test
-    public void testAuthControllersignInSucessfull() throws Exception {
+    public void testAuthControllerSignInSuccessful() throws Exception {
         Map req = new HashMap();
 
         req.put("username", "suporte@ponto.com");
@@ -39,7 +39,7 @@ public class AuthIntegrationTest extends MvcContextIntegrationTest {
      * PUT /auth
      */
     @Test
-    public void testAuthControllersignInFail() throws Exception {
+    public void testAuthControllerSignInFail() throws Exception {
         Map req = new HashMap();
 
         req.put("username", "suporte1@ponto.com");

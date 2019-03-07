@@ -11,67 +11,49 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import { Link, Route } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { logout } from '../operators/authOperator';
 
-import styles from '../styles/NavigatorStyle';
+import styles from '../../styles/NavigatorStyle';
+import Profile from '../profile/Profile';
+import CompaniesList from '../companies/CompaniesList';
 
 class Navigator extends Component {
   state = {
     mobileOpen: false,
-    anchorEl: null,
   };
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
-  handleMenu = (event) => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleAccountMenuClose = () => {
-    const { logout } = this.props;
-    this.setState({ anchorEl: null });
-
-    logout();
-  };
-
   render() {
-    const { classes, theme, children } = this.props;
-    const { anchorEl } = this.state;
-    const open = Boolean(anchorEl);
+    const { classes, theme } = this.props;
 
     const drawer = (
       <div>
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <Link to="profile" style={{ textDecoration: 'none' }}>
-            <ListItem button>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
-            </ListItem>
-          </Link>
-          <Link to="companies" style={{ textDecoration: 'none' }}>
-            <ListItem button>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Companies" />
-            </ListItem>
-          </Link>
+          <ListItem button>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <Link to="/profile">Profile</Link>
+            </ListItemText>
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <Link to="/companies">Companies</Link>
+            </ListItemText>
+          </ListItem>
         </List>
       </div>
     );
@@ -89,41 +71,9 @@ class Navigator extends Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.grow}
-            >
+            <Typography variant="h6" color="inherit" noWrap>
               {'Responsive drawer'}
             </Typography>
-
-            <div>
-              <IconButton
-                aria-owns={open ? 'menu-appbar' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={this.handleClose}
-              >
-                <MenuItem onClick={this.handleAccountMenuClose}>Sair</MenuItem>
-              </Menu>
-            </div>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
@@ -155,20 +105,14 @@ class Navigator extends Component {
           </Hidden>
         </nav>
         <main className={classes.content}>
-          <div className={classes.toolbar} />
-          {children}
+          <div className={classes.toolbar}>
+            <Route path="/profile" component={Profile} />
+          </div>
         </main>
       </div>
     );
   }
 }
-
-const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    logout,
-  },
-  dispatch,
-);
 
 Navigator.propTypes = {
   classes: PropTypes.shape({}).isRequired,
@@ -176,11 +120,6 @@ Navigator.propTypes = {
   // You won't need it on your project.
   container: PropTypes.shape({}),
   theme: PropTypes.shape({}).isRequired,
-  children: PropTypes.node,
-  logout: PropTypes.func.isRequired,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(withStyles(styles, { withTheme: true })(Navigator));
+export default withStyles(styles, { withTheme: true })(Navigator);
