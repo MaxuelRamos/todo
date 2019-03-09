@@ -50,6 +50,8 @@ module.exports = {
   },
 
   async authenticated(req, res) {
-    res.json(req.user);
+    const { user } = req;
+    user.password = undefined;
+    res.json(user);
   },
 };
