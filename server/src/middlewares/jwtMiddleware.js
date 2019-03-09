@@ -8,7 +8,6 @@ const jwtMiddleware = (req, res, next) => {
 
   // decode token
   if (token) {
-    console.log(token);
     // verifies secret and checks exp
     jwt.verify(token, config.secret, (err, decoded) => {
       if (err) {

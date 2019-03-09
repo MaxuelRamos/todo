@@ -3,7 +3,6 @@ const express = require('express');
 const routes = express.Router();
 
 const jwtMiddleware = require('./middlewares/jwtMiddleware');
-const is = require('./middlewares/roleMiddleware');
 const authController = require('./controllers/AuthController');
 
 // Create
