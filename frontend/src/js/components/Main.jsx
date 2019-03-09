@@ -21,7 +21,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { logout } from '../operators/authOperator';
+import { logout, loadAuthenticatedUser } from '../operators/authOperator';
 
 import styles from '../styles/NavigatorStyle';
 
@@ -30,6 +30,11 @@ class Navigator extends Component {
     mobileOpen: false,
     anchorEl: null,
   };
+
+  componentDidMount() {
+    const { loadAuthenticatedUser } = this.props;
+    loadAuthenticatedUser();
+  }
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -47,7 +52,9 @@ class Navigator extends Component {
   };
 
   render() {
-    const { classes, theme, children } = this.props;
+    const {
+      classes, theme, children, authenticatedUser,
+    } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
@@ -76,6 +83,7 @@ class Navigator extends Component {
       </div>
     );
 
+    console.log('11', authenticatedUser);
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -95,7 +103,7 @@ class Navigator extends Component {
               noWrap
               className={classes.grow}
             >
-              {'Responsive drawer'}
+              {authenticatedUser && authenticatedUser.email}
             </Typography>
 
             <div>
@@ -163,9 +171,14 @@ class Navigator extends Component {
   }
 }
 
+const mapStateToProps = store => ({
+  authenticatedUser: store.auth.authenticatedUser,
+});
+
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     logout,
+    loadAuthenticatedUser,
   },
   dispatch,
 );
@@ -176,11 +189,13 @@ Navigator.propTypes = {
   // You won't need it on your project.
   container: PropTypes.shape({}),
   theme: PropTypes.shape({}).isRequired,
+  authenticatedUser: PropTypes.shape({}),
   children: PropTypes.node,
   logout: PropTypes.func.isRequired,
+  loadAuthenticatedUser: PropTypes.func.isRequired,
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(withStyles(styles, { withTheme: true })(Navigator));

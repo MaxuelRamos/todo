@@ -1,0 +1,8 @@
+use admin
+db.createUser(
+  {
+    user: "ponto",
+    pwd: "ponto@admin",
+    roles: [ { role: "root", db: "admin" } ]
+  }
+);

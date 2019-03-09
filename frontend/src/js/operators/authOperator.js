@@ -23,15 +23,11 @@ export function loadAuthenticatedUser() {
 
     return jsonFetch('/api/auth')
       .then((json) => {
-        dispatch(AuthActions.loginSuccess(json));
+        dispatch(AuthActions.authenticatedSuccess(json));
       })
       .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          localStorage.removeItem('id_token');
-          dispatch(AuthActions.logout());
-        } else {
-          dispatch(AuthActions.authenticatedFailure(error.message));
-        }
+        localStorage.removeItem('id_token');
+        dispatch(AuthActions.logout());
       });
   };
 }

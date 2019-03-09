@@ -28,7 +28,7 @@ export function jsonFetch(url) {
   return fetch(url, {
     method: 'GET',
     headers: {
-      Authorization: token,
+      'x-access-token': token,
     },
   }).then(resp => handleError(resp).json());
 }
@@ -46,7 +46,7 @@ export function jsonPatch(url, body) {
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token,
+      'x-access-token': token,
     },
   }).then(resp => handleError(resp).json());
 }
@@ -64,7 +64,7 @@ export function jsonPost(url, body) {
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token,
+      'x-access-token': token,
     },
   }).then(resp => handleError(resp).json());
 }
@@ -82,7 +82,7 @@ export function jsonPut(url, body) {
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token,
+      'x-access-token': token,
     },
   }).then(resp => handleError(resp).json());
 }
@@ -93,7 +93,7 @@ export function jsonDelete(url) {
   return fetch(url, {
     method: 'DELETE',
     headers: {
-      Authorization: token,
+      'x-access-token': token,
     },
   }).then(resp => handleError(resp));
 }
@@ -108,7 +108,7 @@ export function jsonUpload(url, body) {
     method: 'POST',
     body: data,
     headers: {
-      Authorization: token,
+      'x-access-token': token,
     },
   }).then(resp => handleError(resp));
 }
