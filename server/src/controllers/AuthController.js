@@ -9,7 +9,7 @@ module.exports = {
     // create a sample user
     const support = new User({
       email: 'suporte@ponto.com',
-      password: 'ponto@suporte',
+      password: '$2b$10$dRPZywHBatSJ30RCSYa6AOT76fUy/UscZGRMhFYgy5T54Ld4thNRG', //ponto@suporte
       role: 'ADMIN',
     });
     // save the sample user
