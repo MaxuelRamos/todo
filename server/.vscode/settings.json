@@ -1,0 +1,17 @@
+{
+  "files.maxMemoryForLargeFilesMB": 8192,
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 18,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "workbench.editor.enablePreview": false,
+  "editor.lineHeight": 24,
+  "editor.rulers": [80, 120],
+  "prettier.eslintIntegration": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+
+  "workbench.iconTheme": "material-icon-theme"
+}

@@ -30,7 +30,7 @@ module.exports = {
       res.status(401).send({ success: false, message: 'Authentication failed. User not found.' });
     } else if (user) {
       // check if password matches
-      if (!(await bcrypt.compare(req.body.password, user.password))) {
+      if (!(bcrypt.compareSync(req.body.password, user.password))) {
         res.status(401).send({ success: false, message: 'Authentication failed. Wrong password.' });
       } else {
         // if user is found and password is right
