@@ -83,7 +83,6 @@ class Navigator extends Component {
       </div>
     );
 
-    console.log('11', authenticatedUser);
     return (
       <div className={classes.root}>
         <CssBaseline />
