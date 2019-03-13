@@ -3,7 +3,6 @@ const roleMiddleware = (...allowed) => {
 
   // return a middleware
   return (request, response, next) => {
-    console.log('chamou');
     if (request.user && isAllowed(request.user.role)) next();
     // role is allowed, so continue on the next middleware
     else {

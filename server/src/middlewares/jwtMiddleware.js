@@ -11,22 +11,21 @@ const jwtMiddleware = (req, res, next) => {
     // verifies secret and checks exp
     jwt.verify(token, config.secret, (err, decoded) => {
       if (err) {
-        return res.status(500).send({ message: 'Failed to authenticate token.' });
+        return res
+          .status(500)
+          .send({ message: 'Failed to authenticate token.' });
       }
 
-      User.findOne(
-        {
-          _id: decoded.id,
-        },
-        (loadErr, user) => {
-          if (loadErr) {
-            return res.status(500).send(loadErr);
+      User.findOne({ where: { id: decoded.id } })
+        .then((user) => {
+          if (!user) {
+            return res.status(401).send({ message: 'User not found.' });
           }
 
           req.user = user;
           return next();
-        },
-      );
+        })
+        .error(error => res.status(500).send(error));
     });
   } else {
     // if there is no token

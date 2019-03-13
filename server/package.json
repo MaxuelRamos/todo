@@ -5,15 +5,21 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha --recursive",
-    "dev": "concurrently --kill-others-on-fail \"nodemon src/index.js\" \"cd ..\\frontend\\ && yarn start\""
+    "dev": "concurrently --kill-others-on-fail \"nodemon src/index.js\" \"cd ..\\frontend\\ && yarn start\"",
+    "migrate": "node ./src/db/callMigrations.js"
   },
   "dependencies": {
+    "async": "^2.6.2",
     "bcrypt": "^3.0.4",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "express-validator": "^5.3.1",
+    "hoek": "^6.1.2",
     "jsonwebtoken": "^8.5.0",
-    "mongoose": "^5.4.14",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "pg": "^7.8.2",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.43.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",

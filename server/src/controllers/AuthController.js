@@ -5,39 +5,49 @@ const config = require('../config');
 
 module.exports = {
   // Create
-  async store(req, res) {
-    // create a sample user
-    const support = new User({
-      email: 'suporte@ponto.com',
-      password: '$2b$10$dRPZywHBatSJ30RCSYa6AOT76fUy/UscZGRMhFYgy5T54Ld4thNRG', //ponto@suporte
-      role: 'ADMIN',
-    });
-    // save the sample user
-    support.save((err) => {
-      if (err) throw err;
+  // async store(req, res) {
+  //   // create a sample user
+  //   const support = new User({
+  //     email: 'suporte@ponto.com',
+  //     password: '$2b$10$dRPZywHBatSJ30RCSYa6AOT76fUy/UscZGRMhFYgy5T54Ld4thNRG', // ponto@suporte
+  //     role: 'ADMIN',
+  //   });
+  //   // save the sample user
+  //   support.save((err) => {
+  //     if (err) throw err;
 
-      res.json({ success: true });
-    });
-  },
+  //     res.json({ success: true });
+  //   });
+  // },
 
   async authenticate(req, res) {
     // find the user
+    // const user = await User.findOne({
+    //   email: req.body.email,
+    // });
+
     const user = await User.findOne({
-      email: req.body.username,
+      where: { email: req.body.username },
     });
 
     if (!user) {
-      res.status(401).send({ success: false, message: 'Authentication failed. User not found.' });
+      res.status(401).send({
+        success: false,
+        message: 'Authentication failed. User not found.',
+      });
     } else if (user) {
       // check if password matches
-      if (!(bcrypt.compareSync(req.body.password, user.password))) {
-        res.status(401).send({ success: false, message: 'Authentication failed. Wrong password.' });
+      if (!bcrypt.compareSync(req.body.password, user.password)) {
+        res.status(401).send({
+          success: false,
+          message: 'Authentication failed. Wrong password.',
+        });
       } else {
         // if user is found and password is right
         // create a token with only our given payload
         // we don't want to pass in the entire user since that has the password
         const payload = {
-          id: user._id,
+          id: user.id,
         };
         const token = jwt.sign(payload, config.secret);
 

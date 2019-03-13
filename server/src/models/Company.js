@@ -1,7 +1,42 @@
-const mongoose = require('mongoose');
+const Sequelize = require('sequelize');
+const sequelize = require('../db/db.js');
 
-const CompanySchema = new mongoose.Schema({
-  name: String,
+const Company = sequelize.define('company', {
+  cnpj: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      len: {
+        args: [4, 18],
+      },
+    },
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      len: {
+        args: [1, 200],
+      },
+    },
+  },
+  userCount: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
+  expiration: {
+    type: Sequelize.DATE,
+    allowNull: true,
+  },
+  enabled: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
 });
 
-module.exports = mongoose.model('Company', CompanySchema);
+// Table created
+// Company.sync({ force: true });
+
+module.exports = Company;

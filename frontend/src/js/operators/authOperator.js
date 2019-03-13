@@ -27,7 +27,8 @@ export function loadAuthenticatedUser() {
       })
       .catch((error) => {
         localStorage.removeItem('id_token');
-        dispatch(AuthActions.logout());
+        dispatch(AuthActions.authenticatedFailure());
+        dispatch(logout());
       });
   };
 }
