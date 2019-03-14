@@ -13,6 +13,8 @@ import Login from './js/components/login/Login';
 import Main from './js/components/Main';
 import Profile from './js/components/profile/Profile';
 import CompaniesList from './js/components/companies/CompaniesList';
+import CompaniesViewer from './js/components/companies/CompanyViewer';
+import CompanyForm from './js/components/companies/CompanyForm';
 
 const router = routerMiddleware(browserHistory);
 
@@ -63,6 +65,8 @@ ReactDOM.render(
       <Route path="/" component={Main} onEnter={checkAuth}>
         <Route path="profile" component={Profile} />
         <Route path="companies" component={CompaniesList} />
+        <Route path="companies/:id" component={CompaniesViewer} />
+        <Route path="companies/edit/:id" component={CompanyForm} />
       </Route>
     </Router>
   </Provider>,

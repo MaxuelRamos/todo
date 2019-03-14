@@ -25,7 +25,7 @@ const jwtMiddleware = (req, res, next) => {
           req.user = user;
           return next();
         })
-        .error(error => res.status(500).send(error));
+        .catch(error => res.status(500).send(error));
     });
   } else {
     // if there is no token

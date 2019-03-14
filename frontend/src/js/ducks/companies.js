@@ -2,41 +2,78 @@ import { createActions, createReducer } from 'reduxsauce';
 
 /* #region Action types & creators */
 export const { Types, Creators } = createActions({
-  companiesRequest: null,
-  companiesSuccess: ['companies'],
-  companiesFailure: ['error'],
+  companyRequest: null,
+  companyFailure: ['error'],
+
+  loadCompaniesSuccess: ['companies'],
+  loadCompanySuccess: ['company'],
+  createCompanySuccess: ['company'],
+  loadCompanyForEditionSuccess: ['company'],
 });
 /* #endregion */
 
-/* #region Handlers */
+/* #region Initial State */
 const INITIAL_STATE = {
   loading: false,
   companies: [],
 };
+/* #endregion */
 
-/* #region Login */
-const companiesRequest = (state = INITIAL_STATE) => ({
+/* Generic handlers */
+const companyRequest = (state = INITIAL_STATE) => ({
   ...state,
   loading: true,
+  selected: undefined,
+  companies: [],
 });
 
-const companiesSuccess = (state = INITIAL_STATE, action) => ({
+const companyFailure = (state = INITIAL_STATE, action) => ({
+  ...state,
+  loading: false,
+  errorMessage: action.error,
+  selected: undefined,
+  companies: [],
+});
+
+/* Companies list */
+const loadCompaniesSuccess = (state = INITIAL_STATE, action) => ({
   ...state,
   loading: false,
   errorMessage: '',
   companies: action.companies,
 });
 
-const companiesFailure = (state = INITIAL_STATE, action) => ({
+/* Company load */
+const loadCompanySuccess = (state = INITIAL_STATE, action) => ({
   ...state,
   loading: false,
-  errorMessage: action.error,
-  companies: [],
+  errorMessage: '',
+  selected: action.company,
+});
+
+/* Company load for edition */
+const loadCompanyForEditionSuccess = (state = INITIAL_STATE, action) => ({
+  ...state,
+  loading: false,
+  errorMessage: '',
+  selected: action.company,
+});
+
+/* Company creation */
+const createCompanySuccess = (state = INITIAL_STATE, action) => ({
+  ...state,
+  loading: false,
+  errorMessage: '',
+  selected: action.company,
 });
 /* #endregion */
 
 export default createReducer(INITIAL_STATE, {
-  [Types.COMPANIES_REQUEST]: companiesRequest,
-  [Types.COMPANIES_SUCCESS]: companiesSuccess,
-  [Types.COMPANIES_FAILURE]: companiesFailure,
+  [Types.COMPANY_REQUEST]: companyRequest,
+  [Types.COMPANY_FAILURE]: companyFailure,
+
+  [Types.LOAD_COMPANIES_SUCCESS]: loadCompaniesSuccess,
+  [Types.LOAD_COMPANY_SUCCESS]: loadCompanySuccess,
+  [Types.CREATE_COMPANY_SUCCESS]: createCompanySuccess,
+  [Types.LOAD_COMPANY_FOR_EDITION_SUCCESS]: loadCompanyForEditionSuccess,
 });

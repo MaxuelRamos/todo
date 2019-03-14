@@ -63,7 +63,7 @@ class Navigator extends Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <Link to="profile" style={{ textDecoration: 'none' }}>
+          <Link to="/profile" style={{ textDecoration: 'none' }}>
             <ListItem button>
               <ListItemIcon>
                 <InboxIcon />
@@ -71,7 +71,7 @@ class Navigator extends Component {
               <ListItemText primary="Profile" />
             </ListItem>
           </Link>
-          <Link to="companies" style={{ textDecoration: 'none' }}>
+          <Link to="/companies" style={{ textDecoration: 'none' }}>
             <ListItem button>
               <ListItemIcon>
                 <InboxIcon />
