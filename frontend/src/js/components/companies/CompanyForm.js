@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
-import { editCompany } from '../../operators/companiesOperator';
+import TextField from '@material-ui/core/TextField';
+import {
+  editCompany,
+  createCompany,
+  updateCompany,
+} from '../../operators/companiesOperator';
 
 class CompanyForm extends Component {
   constructor(props) {
@@ -21,12 +26,21 @@ class CompanyForm extends Component {
     const { editCompany, selected, params } = this.props;
 
     if (Number(params.id) === 0) {
-      this.setState({ company: { id: 0 } });
+      this.setState({
+        company: {
+          id: 0,
+          name: '',
+          cnpj: '',
+          userCount: 5,
+        },
+      });
       return;
     }
 
     if (!selected) {
       editCompany(params.id);
+    } else {
+      this.setState({ company: { ...selected } });
     }
   }
 
@@ -39,17 +53,26 @@ class CompanyForm extends Component {
   }
 
   handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { company } = this.state;
+    company[e.target.name] = e.target.value;
+    this.setState({ company });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    // loginUser({ username, password });
+    const { createCompany, updateCompany } = this.props;
+    const { company } = this.state;
+
+    if (company.id === 0) {
+      createCompany(company);
+    } else {
+      updateCompany(company);
+    }
   };
 
   render() {
-    const { loading, errorMessage, selected } = this.props;
+    const { loading, errorMessage } = this.props;
     const { company } = this.state;
 
     return (
@@ -57,10 +80,50 @@ class CompanyForm extends Component {
         {loading && <CircularProgress />}
         {company && (
           <form onSubmit={this.handleSubmit}>
-            {company.id}
-            {selected && selected.id}
+            <TextField
+              label="Nome"
+              margin="normal"
+              variant="outlined"
+              placeholder="Informe o nome..."
+              name="name"
+              value={company.name}
+              onChange={this.handleChange}
+              inputProps={{ minLength: 4, maxLength: 200 }}
+              required
+            />
+
+            <br />
+            <TextField
+              label="CNPJ"
+              margin="normal"
+              variant="outlined"
+              placeholder="Informe o cnpj..."
+              name="cnpj"
+              value={company.cnpj}
+              onChange={this.handleChange}
+              inputProps={{ minLength: 4, maxLength: 18 }}
+              required
+            />
+
+            <br />
+
+            <TextField
+              label="Limite de usuários"
+              margin="normal"
+              variant="outlined"
+              placeholder="Informe o limite de usuários..."
+              name="userCount"
+              value={company.userCount}
+              onChange={this.handleChange}
+              type="number"
+              inputProps={{ min: '0', max: '100', step: '1' }}
+              required
+            />
+
+            <br />
+
             <Button variant="contained" type="submit" disabled={loading}>
-              {'Login'}
+              {'Salvar'}
             </Button>
             <br />
             {errorMessage}
@@ -75,6 +138,8 @@ CompanyForm.propTypes = {
   params: PropTypes.shape({}).isRequired,
   loading: PropTypes.bool.isRequired,
   editCompany: PropTypes.func.isRequired,
+  createCompany: PropTypes.func.isRequired,
+  updateCompany: PropTypes.func.isRequired,
   selected: PropTypes.shape({}),
   errorMessage: PropTypes.string,
 };
@@ -88,6 +153,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     editCompany,
+    createCompany,
+    updateCompany,
   },
   dispatch,
 );

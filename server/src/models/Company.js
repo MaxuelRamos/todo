@@ -24,6 +24,10 @@ const Company = sequelize.define('company', {
     type: Sequelize.INTEGER,
     allowNull: false,
     defaultValue: 0,
+    validate: {
+      min: 1,
+      max: 100,
+    },
   },
   expiration: {
     type: Sequelize.DATE,

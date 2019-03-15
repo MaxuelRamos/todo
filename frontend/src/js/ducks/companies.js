@@ -7,8 +7,10 @@ export const { Types, Creators } = createActions({
 
   loadCompaniesSuccess: ['companies'],
   loadCompanySuccess: ['company'],
-  createCompanySuccess: ['company'],
   loadCompanyForEditionSuccess: ['company'],
+  createCompanySuccess: ['company'],
+  updateCompanySuccess: ['company'],
+  disableCompanySuccess: null,
 });
 /* #endregion */
 
@@ -23,16 +25,12 @@ const INITIAL_STATE = {
 const companyRequest = (state = INITIAL_STATE) => ({
   ...state,
   loading: true,
-  selected: undefined,
-  companies: [],
 });
 
 const companyFailure = (state = INITIAL_STATE, action) => ({
   ...state,
   loading: false,
   errorMessage: action.error,
-  selected: undefined,
-  companies: [],
 });
 
 /* Companies list */
@@ -66,7 +64,21 @@ const createCompanySuccess = (state = INITIAL_STATE, action) => ({
   errorMessage: '',
   selected: action.company,
 });
-/* #endregion */
+
+/* Company update */
+const updateCompanySuccess = (state = INITIAL_STATE, action) => ({
+  ...state,
+  loading: false,
+  errorMessage: '',
+  selected: action.company,
+});
+
+const disableCompanySuccess = (state = INITIAL_STATE) => ({
+  ...state,
+  loading: false,
+  errorMessage: '',
+  selected: undefined,
+});
 
 export default createReducer(INITIAL_STATE, {
   [Types.COMPANY_REQUEST]: companyRequest,
@@ -74,6 +86,8 @@ export default createReducer(INITIAL_STATE, {
 
   [Types.LOAD_COMPANIES_SUCCESS]: loadCompaniesSuccess,
   [Types.LOAD_COMPANY_SUCCESS]: loadCompanySuccess,
-  [Types.CREATE_COMPANY_SUCCESS]: createCompanySuccess,
   [Types.LOAD_COMPANY_FOR_EDITION_SUCCESS]: loadCompanyForEditionSuccess,
+  [Types.CREATE_COMPANY_SUCCESS]: createCompanySuccess,
+  [Types.UPDATE_COMPANY_SUCCESS]: updateCompanySuccess,
+  [Types.DISABLE_COMPANY_SUCCESS]: disableCompanySuccess,
 });

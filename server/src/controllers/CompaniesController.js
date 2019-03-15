@@ -48,9 +48,7 @@ module.exports = {
 
   /** Update */
   async update(req, res) {
-    const {
-      name, cnpj, userCount, expiration,
-    } = req.body;
+    const newData = req.body;
 
     Company.findOne({
       where: {
@@ -63,13 +61,13 @@ module.exports = {
           return;
         }
 
-        company.name = name;
-        company.cnpj = cnpj;
-        company.userCount = userCount;
-        company.expiration = expiration;
+        company.name = newData.name;
+        company.cnpj = newData.cnpj;
+        company.userCount = newData.userCount;
+        company.expiration = newData.expiration;
 
         company
-          .update()
+          .save()
           .then((comp) => {
             res.json(comp);
           })
@@ -89,7 +87,7 @@ module.exports = {
         company.enabled = false;
 
         company
-          .update()
+          .save()
           .then(() => {
             res.status(200).send();
           })

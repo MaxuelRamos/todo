@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { push } from 'react-router-redux';
 import Button from '@material-ui/core/Button';
-import { loadCompanies, editCompany } from '../../operators/companiesOperator';
+import { loadCompanies } from '../../operators/companiesOperator';
 
 const styles = theme => ({
   table: {
@@ -96,7 +96,6 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     loadCompanies,
-    editCompany,
     push,
   },
   dispatch,
@@ -107,7 +106,6 @@ CompaniesList.propTypes = {
   loading: PropTypes.bool.isRequired,
   companies: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   loadCompanies: PropTypes.func.isRequired,
-  editCompany: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
 };
 

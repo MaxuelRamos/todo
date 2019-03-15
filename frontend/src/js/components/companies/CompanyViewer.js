@@ -3,7 +3,12 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { loadCompany } from '../../operators/companiesOperator';
+import Button from '@material-ui/core/Button';
+import {
+  loadCompany,
+  editCompany,
+  disableCompany,
+} from '../../operators/companiesOperator';
 
 class CompaniesViewer extends Component {
   componentDidMount() {
@@ -11,12 +16,43 @@ class CompaniesViewer extends Component {
     loadCompany(params.id);
   }
 
+  onEditCompanyClick = () => {
+    const { editCompany, selected } = this.props;
+    editCompany(selected.id);
+  };
+
+  onDisableCompanyClick = () => {
+    const { disableCompany, selected } = this.props;
+    disableCompany(selected.id);
+  };
+
   render() {
     const { selected, loading } = this.props;
     return (
       <div>
         {loading && <CircularProgress />}
-        {!loading && selected && <div>{selected.name}</div>}
+        {!loading && selected && (
+          <div>
+            <Button
+              variant="contained"
+              disabled={loading}
+              onClick={this.onEditCompanyClick}
+            >
+              {'Editar'}
+            </Button>
+
+            <Button
+              variant="contained"
+              disabled={loading}
+              onClick={this.onDisableCompanyClick}
+            >
+              {'Desabilitar'}
+            </Button>
+
+            <br />
+            {selected.name}
+          </div>
+        )}
       </div>
     );
   }
@@ -27,6 +63,8 @@ CompaniesViewer.propTypes = {
   loading: PropTypes.bool.isRequired,
   loadCompany: PropTypes.func.isRequired,
   selected: PropTypes.shape({}),
+  editCompany: PropTypes.func.isRequired,
+  disableCompany: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -37,6 +75,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     loadCompany,
+    editCompany,
+    disableCompany,
   },
   dispatch,
 );
