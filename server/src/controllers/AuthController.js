@@ -73,8 +73,6 @@ module.exports = {
   },
 
   async authenticated(req, res) {
-    const { user } = req;
-    user.password = undefined;
-    res.json(user);
+    res.json(req.user);
   },
 };

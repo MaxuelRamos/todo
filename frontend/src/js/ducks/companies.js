@@ -11,6 +11,8 @@ export const { Types, Creators } = createActions({
   createCompanySuccess: ['company'],
   updateCompanySuccess: ['company'],
   disableCompanySuccess: null,
+
+  disableUserSuccess: ['userId'],
 });
 /* #endregion */
 
@@ -80,6 +82,16 @@ const disableCompanySuccess = (state = INITIAL_STATE) => ({
   selected: undefined,
 });
 
+const disableUserSuccess = (state = INITIAL_STATE, action) => ({
+  ...state,
+  loading: false,
+  errorMessage: '',
+  selected: {
+    ...state.selected,
+    users: state.selected.users.map(u => (u.id === action.userId ? { ...u, enabled: false } : u)),
+  },
+});
+
 export default createReducer(INITIAL_STATE, {
   [Types.COMPANY_REQUEST]: companyRequest,
   [Types.COMPANY_FAILURE]: companyFailure,
@@ -90,4 +102,5 @@ export default createReducer(INITIAL_STATE, {
   [Types.CREATE_COMPANY_SUCCESS]: createCompanySuccess,
   [Types.UPDATE_COMPANY_SUCCESS]: updateCompanySuccess,
   [Types.DISABLE_COMPANY_SUCCESS]: disableCompanySuccess,
+  [Types.DISABLE_USER_SUCCESS]: disableUserSuccess,
 });

@@ -86,3 +86,15 @@ export function disableCompany(id) {
       .catch(error => dispatch(CompanyActions.companyFailure(error.message)));
   };
 }
+
+export function disableCompanyUser(company, user) {
+  return (dispatch) => {
+    dispatch(CompanyActions.companyRequest());
+
+    return jsonPut(`${api}/${company.id}/user/${user.id}`)
+      .then((json) => {
+        dispatch(CompanyActions.disableUserSuccess(json));
+      })
+      .catch(error => dispatch(CompanyActions.companyFailure(error.message)));
+  };
+}

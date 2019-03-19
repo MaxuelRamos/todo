@@ -8,7 +8,9 @@ import {
   loadCompany,
   editCompany,
   disableCompany,
+  disableCompanyUser,
 } from '../../operators/companiesOperator';
+import UserList from './UserList';
 
 class CompaniesViewer extends Component {
   componentDidMount() {
@@ -24,6 +26,15 @@ class CompaniesViewer extends Component {
   onDisableCompanyClick = () => {
     const { disableCompany, selected } = this.props;
     disableCompany(selected.id);
+  };
+
+  onEditUser = (user) => {
+    console.log('editando', user);
+  };
+
+  onDeleteUser = (user) => {
+    const { disableCompanyUser, selected } = this.props;
+    disableCompanyUser(selected, user);
   };
 
   render() {
@@ -51,6 +62,14 @@ class CompaniesViewer extends Component {
 
             <br />
             {selected.name}
+
+            <br />
+
+            <UserList
+              users={selected.users}
+              onDelete={this.onDeleteUser}
+              onEdit={this.onEditUser}
+            />
           </div>
         )}
       </div>
@@ -65,6 +84,7 @@ CompaniesViewer.propTypes = {
   selected: PropTypes.shape({}),
   editCompany: PropTypes.func.isRequired,
   disableCompany: PropTypes.func.isRequired,
+  disableCompanyUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -77,6 +97,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     loadCompany,
     editCompany,
     disableCompany,
+    disableCompanyUser,
   },
   dispatch,
 );
