@@ -7,6 +7,7 @@ const is = require('./middlewares/roleMiddleware');
 
 const authController = require('./controllers/AuthController');
 const companiesController = require('./controllers/CompaniesController');
+const usersController = require('./controllers/UsersController');
 
 /** Authentication */
 routes.put('/api/auth', authController.authenticate);
@@ -24,11 +25,9 @@ routes.post('/api/companies/', is('ADMIN'), companiesController.store);
 routes.put('/api/companies/:id', is('ADMIN'), companiesController.update);
 routes.delete('/api/companies/:id', is('ADMIN'), companiesController.disable);
 
-routes.put(
-  '/api/companies/:id/user/:userId',
-  is('ADMIN'),
-  companiesController.disableUser,
-);
+routes.get('/api/users', is('ADMIN'), usersController.index);
+routes.put('/api/users/:id/disable', is('ADMIN'), usersController.disable);
+routes.put('/api/users/:id/enable', is('ADMIN'), usersController.enable);
 
 /** Users */
 

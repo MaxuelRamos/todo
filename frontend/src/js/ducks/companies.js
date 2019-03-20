@@ -7,12 +7,9 @@ export const { Types, Creators } = createActions({
 
   loadCompaniesSuccess: ['companies'],
   loadCompanySuccess: ['company'],
-  loadCompanyForEditionSuccess: ['company'],
   createCompanySuccess: ['company'],
   updateCompanySuccess: ['company'],
   disableCompanySuccess: null,
-
-  disableUserSuccess: ['userId'],
 });
 /* #endregion */
 
@@ -27,6 +24,7 @@ const INITIAL_STATE = {
 const companyRequest = (state = INITIAL_STATE) => ({
   ...state,
   loading: true,
+  errorMessage: '',
 });
 
 const companyFailure = (state = INITIAL_STATE, action) => ({
@@ -45,14 +43,6 @@ const loadCompaniesSuccess = (state = INITIAL_STATE, action) => ({
 
 /* Company load */
 const loadCompanySuccess = (state = INITIAL_STATE, action) => ({
-  ...state,
-  loading: false,
-  errorMessage: '',
-  selected: action.company,
-});
-
-/* Company load for edition */
-const loadCompanyForEditionSuccess = (state = INITIAL_STATE, action) => ({
   ...state,
   loading: false,
   errorMessage: '',
@@ -82,25 +72,13 @@ const disableCompanySuccess = (state = INITIAL_STATE) => ({
   selected: undefined,
 });
 
-const disableUserSuccess = (state = INITIAL_STATE, action) => ({
-  ...state,
-  loading: false,
-  errorMessage: '',
-  selected: {
-    ...state.selected,
-    users: state.selected.users.map(u => (u.id === action.userId ? { ...u, enabled: false } : u)),
-  },
-});
-
 export default createReducer(INITIAL_STATE, {
   [Types.COMPANY_REQUEST]: companyRequest,
   [Types.COMPANY_FAILURE]: companyFailure,
 
   [Types.LOAD_COMPANIES_SUCCESS]: loadCompaniesSuccess,
   [Types.LOAD_COMPANY_SUCCESS]: loadCompanySuccess,
-  [Types.LOAD_COMPANY_FOR_EDITION_SUCCESS]: loadCompanyForEditionSuccess,
   [Types.CREATE_COMPANY_SUCCESS]: createCompanySuccess,
   [Types.UPDATE_COMPANY_SUCCESS]: updateCompanySuccess,
   [Types.DISABLE_COMPANY_SUCCESS]: disableCompanySuccess,
-  [Types.DISABLE_USER_SUCCESS]: disableUserSuccess,
 });

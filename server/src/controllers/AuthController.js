@@ -9,25 +9,10 @@ const onError = (error, res) => {
 };
 
 module.exports = {
-  // Create
-  // async store(req, res) {
-  //   // create a sample user
-  //   const support = new User({
-  //     email: 'suporte@ponto.com',
-  //     password: '$2b$10$dRPZywHBatSJ30RCSYa6AOT76fUy/UscZGRMhFYgy5T54Ld4thNRG', // ponto@suporte
-  //     role: 'ADMIN',
-  //   });
-  //   // save the sample user
-  //   support.save((err) => {
-  //     if (err) throw err;
-
-  //     res.json({ success: true });
-  //   });
-  // },
-
   async authenticate(req, res) {
     User.findOne({
       where: { email: req.body.username },
+      attributes: { include: ['password'] },
     })
       .then((user) => {
         if (!user) {

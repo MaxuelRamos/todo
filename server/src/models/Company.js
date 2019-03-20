@@ -43,9 +43,7 @@ const Company = sequelize.define(
       defaultValue: true,
     },
   },
-  {
-    underscored: true,
-  },
+  { schema: 'ponto' },
 );
 
 Company.hasMany(User);

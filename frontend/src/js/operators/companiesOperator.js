@@ -39,7 +39,7 @@ export function editCompany(id) {
     dispatch(CompanyActions.companyRequest());
     return jsonFetch(`${api}/${id}`)
       .then((json) => {
-        dispatch(CompanyActions.loadCompanyForEditionSuccess(json));
+        dispatch(CompanyActions.loadCompanySuccess(json));
         dispatch(push(`/companies/edit/${id}`));
       })
       .catch((error) => {
@@ -91,9 +91,21 @@ export function disableCompanyUser(company, user) {
   return (dispatch) => {
     dispatch(CompanyActions.companyRequest());
 
-    return jsonPut(`${api}/${company.id}/user/${user.id}`)
+    return jsonPut(`${api}/${company.id}/user/${user.id}/disable`)
       .then((json) => {
         dispatch(CompanyActions.disableUserSuccess(json));
+      })
+      .catch(error => dispatch(CompanyActions.companyFailure(error.message)));
+  };
+}
+
+export function enableCompanyUser(company, user) {
+  return (dispatch) => {
+    dispatch(CompanyActions.companyRequest());
+
+    return jsonPut(`${api}/${company.id}/user/${user.id}/enable`)
+      .then((json) => {
+        dispatch(CompanyActions.enableUserSuccess(json));
       })
       .catch(error => dispatch(CompanyActions.companyFailure(error.message)));
   };

@@ -27,7 +27,7 @@ const User = sequelize.define(
     },
   },
   {
-    underscored: true,
+    schema: 'ponto',
     defaultScope: {
       attributes: { exclude: ['password'] },
     },

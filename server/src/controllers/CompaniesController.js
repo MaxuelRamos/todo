@@ -27,11 +27,6 @@ module.exports = {
       where: {
         id: req.params.id,
       },
-      include: [
-        {
-          model: User,
-        },
-      ],
     })
       .then((company) => {
         res.json(company);
@@ -96,26 +91,6 @@ module.exports = {
           .save()
           .then(() => {
             res.status(200).send();
-          })
-          .catch(error => onError(error, res));
-      })
-      .catch(error => onError(error, res));
-  },
-
-  /** Disable user */
-  async disableUser(req, res) {
-    User.findOne({
-      where: {
-        id: req.params.userId,
-      },
-    })
-      .then((user) => {
-        user.enabled = false;
-
-        user
-          .save()
-          .then(() => {
-            res.json(user.id);
           })
           .catch(error => onError(error, res));
       })

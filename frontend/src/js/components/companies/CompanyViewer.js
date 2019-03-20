@@ -9,8 +9,9 @@ import {
   editCompany,
   disableCompany,
   disableCompanyUser,
+  enableCompanyUser,
 } from '../../operators/companiesOperator';
-import UserList from './UserList';
+import UserList from '../users/UserList';
 
 class CompaniesViewer extends Component {
   componentDidMount() {
@@ -28,21 +29,24 @@ class CompaniesViewer extends Component {
     disableCompany(selected.id);
   };
 
-  onEditUser = (user) => {
-    console.log('editando', user);
-  };
+  onEditUser = (user) => {};
 
-  onDeleteUser = (user) => {
+  onDisableUser = (user) => {
     const { disableCompanyUser, selected } = this.props;
     disableCompanyUser(selected, user);
   };
 
+  onEnableUser = (user) => {
+    const { enableCompanyUser, selected } = this.props;
+    enableCompanyUser(selected, user);
+  };
+
   render() {
-    const { selected, loading } = this.props;
+    const { selected, loading, errorMessage } = this.props;
     return (
       <div>
         {loading && <CircularProgress />}
-        {!loading && selected && (
+        {selected && (
           <div>
             <Button
               variant="contained"
@@ -66,10 +70,13 @@ class CompaniesViewer extends Component {
             <br />
 
             <UserList
-              users={selected.users}
-              onDelete={this.onDeleteUser}
+              company={selected}
+              onDisable={this.onDisableUser}
+              onEnable={this.onEnableUser}
               onEdit={this.onEditUser}
             />
+
+            {errorMessage}
           </div>
         )}
       </div>
@@ -85,11 +92,14 @@ CompaniesViewer.propTypes = {
   editCompany: PropTypes.func.isRequired,
   disableCompany: PropTypes.func.isRequired,
   disableCompanyUser: PropTypes.func.isRequired,
+  enableCompanyUser: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  loading: state.companies.loading,
-  selected: state.companies.selected,
+const mapStateToProps = store => ({
+  loading: store.companies.loading,
+  selected: store.companies.selected,
+  errorMessage: store.companies.errorMessage,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -98,6 +108,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     editCompany,
     disableCompany,
     disableCompanyUser,
+    enableCompanyUser,
   },
   dispatch,
 );
