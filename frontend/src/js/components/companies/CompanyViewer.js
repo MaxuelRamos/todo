@@ -3,14 +3,18 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { push } from 'react-router-redux';
 import Button from '@material-ui/core/Button';
 import {
   loadCompany,
   editCompany,
   disableCompany,
-  disableCompanyUser,
-  enableCompanyUser,
 } from '../../operators/companiesOperator';
+import {
+  disableUser,
+  enableUser,
+  editUser,
+} from '../../operators/usersOperator';
 import UserList from '../users/UserList';
 
 class CompaniesViewer extends Component {
@@ -29,16 +33,24 @@ class CompaniesViewer extends Component {
     disableCompany(selected.id);
   };
 
-  onEditUser = (user) => {};
+  onEditUser = (user) => {
+    const { editUser } = this.props;
+    editUser(user.id);
+  };
 
   onDisableUser = (user) => {
-    const { disableCompanyUser, selected } = this.props;
-    disableCompanyUser(selected, user);
+    const { disableUser } = this.props;
+    disableUser(user);
   };
 
   onEnableUser = (user) => {
-    const { enableCompanyUser, selected } = this.props;
-    enableCompanyUser(selected, user);
+    const { enableUser } = this.props;
+    enableUser(user);
+  };
+
+  onNewUserClick = () => {
+    const { push } = this.props;
+    push('/users/edit/0');
   };
 
   render() {
@@ -64,6 +76,15 @@ class CompaniesViewer extends Component {
               {'Desabilitar'}
             </Button>
 
+            <Button
+              variant="contained"
+              disabled={loading}
+              onClick={this.onNewUserClick}
+            >
+              {'Criar Usuário'}
+            </Button>
+
+            <br />
             <br />
             {selected.name}
 
@@ -90,10 +111,12 @@ CompaniesViewer.propTypes = {
   loadCompany: PropTypes.func.isRequired,
   selected: PropTypes.shape({}),
   editCompany: PropTypes.func.isRequired,
+  editUser: PropTypes.func.isRequired,
   disableCompany: PropTypes.func.isRequired,
-  disableCompanyUser: PropTypes.func.isRequired,
-  enableCompanyUser: PropTypes.func.isRequired,
+  disableUser: PropTypes.func.isRequired,
+  enableUser: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
+  push: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
@@ -107,8 +130,10 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     loadCompany,
     editCompany,
     disableCompany,
-    disableCompanyUser,
-    enableCompanyUser,
+    disableUser,
+    enableUser,
+    editUser,
+    push,
   },
   dispatch,
 );

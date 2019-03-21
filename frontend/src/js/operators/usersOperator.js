@@ -46,13 +46,13 @@ export function editUser(id) {
   };
 }
 
-export function createCompany(user) {
+export function createUser(user) {
   return (dispatch) => {
     dispatch(UserActions.userRequest());
 
     return jsonPost(`${api}`, user)
       .then((json) => {
-        dispatch(UserActions.createCompanySuccess(json));
+        dispatch(UserActions.createUserSuccess(json));
         dispatch(push(`/companies/${json.companyId}`));
       })
       .catch(error => dispatch(UserActions.userFailure(error.message)));
@@ -65,8 +65,8 @@ export function updateUser(user) {
 
     return jsonPut(`${api}/${user.id}`, user)
       .then((json) => {
-        dispatch(UserActions.updateCompanySuccess(json));
-        dispatch(push(`/companies/${json.companyId}`));
+        dispatch(UserActions.updateUserSuccess(json));
+        dispatch(push(`/companies/${json.company.id}`));
       })
       .catch(error => dispatch(UserActions.userFailure(error.message)));
   };
@@ -84,7 +84,7 @@ export function disableUser(user) {
   };
 }
 
-export function enableCompanyUser(user) {
+export function enableUser(user) {
   return (dispatch) => {
     dispatch(UserActions.userRequest());
 

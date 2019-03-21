@@ -15,6 +15,7 @@ import Profile from './js/components/profile/Profile';
 import CompaniesList from './js/components/companies/CompaniesList';
 import CompaniesViewer from './js/components/companies/CompanyViewer';
 import CompanyForm from './js/components/companies/CompanyForm';
+import UserForm from './js/components/users/UserForm';
 
 const router = routerMiddleware(browserHistory);
 
@@ -67,6 +68,7 @@ ReactDOM.render(
         <Route path="companies" component={CompaniesList} />
         <Route path="companies/:id" component={CompaniesViewer} />
         <Route path="companies/edit/:id" component={CompanyForm} />
+        <Route path="users/edit/:id" component={UserForm} />
       </Route>
     </Router>
   </Provider>,

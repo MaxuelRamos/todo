@@ -86,27 +86,3 @@ export function disableCompany(id) {
       .catch(error => dispatch(CompanyActions.companyFailure(error.message)));
   };
 }
-
-export function disableCompanyUser(company, user) {
-  return (dispatch) => {
-    dispatch(CompanyActions.companyRequest());
-
-    return jsonPut(`${api}/${company.id}/user/${user.id}/disable`)
-      .then((json) => {
-        dispatch(CompanyActions.disableUserSuccess(json));
-      })
-      .catch(error => dispatch(CompanyActions.companyFailure(error.message)));
-  };
-}
-
-export function enableCompanyUser(company, user) {
-  return (dispatch) => {
-    dispatch(CompanyActions.companyRequest());
-
-    return jsonPut(`${api}/${company.id}/user/${user.id}/enable`)
-      .then((json) => {
-        dispatch(CompanyActions.enableUserSuccess(json));
-      })
-      .catch(error => dispatch(CompanyActions.companyFailure(error.message)));
-  };
-}

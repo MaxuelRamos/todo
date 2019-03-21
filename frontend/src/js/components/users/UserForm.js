@@ -5,42 +5,49 @@ import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { push } from 'react-router-redux';
 import {
-  editCompany,
-  createCompany,
-  updateCompany,
-} from '../../operators/companiesOperator';
+  editUser,
+  createUser,
+  updateUser,
+} from '../../operators/usersOperator';
 
 class CompanyForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      company: undefined,
+      user: undefined,
     };
 
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    const { editCompany, selected, params } = this.props;
+    const {
+      editUser, selected, company, params, push,
+    } = this.props;
+
+    if (!company) {
+      push('/');
+      return;
+    }
 
     if (Number(params.id) === 0) {
       this.setState({
-        company: {
+        user: {
           id: 0,
-          name: '',
-          cnpj: '',
-          userCount: 5,
+          email: '',
+          companyId: company.id,
         },
       });
       return;
     }
 
     if (!selected) {
-      editCompany(params.id);
+      editUser(params.id);
     } else {
-      this.setState({ company: { ...selected } });
+      this.setState({ user: { ...selected } });
     }
   }
 
@@ -48,87 +55,49 @@ class CompanyForm extends Component {
     const { selected } = this.props;
     // Se o item selecionado mudar, deve-se mudar o item em edição
     if (selected !== nextProps.selected) {
-      this.setState({ company: { ...nextProps.selected } });
+      this.setState({ user: { ...nextProps.selected } });
     }
   }
 
   handleChange = (e) => {
-    const { company } = this.state;
-    company[e.target.name] = e.target.value;
-    this.setState({ company });
+    const { user } = this.state;
+    user[e.target.name] = e.target.value;
+    this.setState({ user });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { createCompany, updateCompany } = this.props;
-    const { company } = this.state;
+    const { createUser, updateUser } = this.props;
+    const { user } = this.state;
 
-    if (company.id === 0) {
-      createCompany(company);
+    console.log('user', user);
+
+    if (user.id === 0) {
+      createUser(user);
     } else {
-      updateCompany(company);
+      updateUser(user);
     }
   };
 
   render() {
     const { loading, errorMessage } = this.props;
-    const { company } = this.state;
+    const { user } = this.state;
 
     return (
       <div>
         {loading && <CircularProgress />}
-        {company && (
+        {user && (
           <form onSubmit={this.handleSubmit}>
-            <TextField
-              label="Nome"
-              margin="normal"
-              variant="outlined"
-              placeholder="Informe o nome..."
-              name="name"
-              value={company.name}
-              onChange={this.handleChange}
-              inputProps={{ minLength: 4, maxLength: 200 }}
-              required
-            />
-
             <TextField
               label="Email"
               margin="normal"
               variant="outlined"
               placeholder="Informe o email..."
               type="email"
-              name="username"
-              value={user.name}
+              name="email"
+              value={user.email}
               onChange={this.handleChange}
-              required
-            />
-
-            <br />
-            <TextField
-              label="CNPJ"
-              margin="normal"
-              variant="outlined"
-              placeholder="Informe o cnpj..."
-              name="cnpj"
-              value={company.cnpj}
-              onChange={this.handleChange}
-              inputProps={{ minLength: 4, maxLength: 18 }}
-              required
-            />
-
-            <br />
-
-            <TextField
-              label="Limite de usuários"
-              margin="normal"
-              variant="outlined"
-              placeholder="Informe o limite de usuários..."
-              name="userCount"
-              value={company.userCount}
-              onChange={this.handleChange}
-              type="number"
-              inputProps={{ min: '0', max: '100', step: '1' }}
               required
             />
 
@@ -149,24 +118,28 @@ class CompanyForm extends Component {
 CompanyForm.propTypes = {
   params: PropTypes.shape({}).isRequired,
   loading: PropTypes.bool.isRequired,
-  editCompany: PropTypes.func.isRequired,
-  createCompany: PropTypes.func.isRequired,
-  updateCompany: PropTypes.func.isRequired,
+  editUser: PropTypes.func.isRequired,
+  createUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
   selected: PropTypes.shape({}),
+  company: PropTypes.shape({}),
   errorMessage: PropTypes.string,
+  push: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   loading: state.companies.loading,
-  selected: state.companies.selected,
+  company: state.companies.selected,
+  selected: state.users.selected,
   errorMessage: state.companies.errorMessage,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    editCompany,
-    createCompany,
-    updateCompany,
+    editUser,
+    createUser,
+    updateUser,
+    push,
   },
   dispatch,
 );

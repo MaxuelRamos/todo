@@ -65,14 +65,14 @@ const disableUserSuccess = (state = INITIAL_STATE, action) => ({
   ...state,
   loading: false,
   errorMessage: '',
-  users: state.selected.users.map(u => (u.id === action.userId ? { ...u, enabled: false } : u)),
+  users: state.users.map(u => (u.id === action.userId ? { ...u, enabled: false } : u)),
 });
 
 const enableUserSuccess = (state = INITIAL_STATE, action) => ({
   ...state,
   loading: false,
   errorMessage: '',
-  users: state.selected.users.map(u => (u.id === action.userId ? { ...u, enabled: true } : u)),
+  users: state.users.map(u => (u.id === action.userId ? { ...u, enabled: true } : u)),
 });
 
 export default createReducer(INITIAL_STATE, {

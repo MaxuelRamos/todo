@@ -26,6 +26,9 @@ routes.put('/api/companies/:id', is('ADMIN'), companiesController.update);
 routes.delete('/api/companies/:id', is('ADMIN'), companiesController.disable);
 
 routes.get('/api/users', is('ADMIN'), usersController.index);
+routes.get('/api/users/:id', is('ADMIN'), usersController.findOne);
+routes.post('/api/users/', is('ADMIN'), usersController.store);
+routes.put('/api/users/:id', is('ADMIN'), usersController.update);
 routes.put('/api/users/:id/disable', is('ADMIN'), usersController.disable);
 routes.put('/api/users/:id/enable', is('ADMIN'), usersController.enable);
 

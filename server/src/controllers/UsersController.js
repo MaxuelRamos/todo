@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Company = require('../models/Company');
 
 const onError = (error, res) => {
   console.log(error);
@@ -19,7 +20,57 @@ module.exports = {
       .catch(error => onError(error, res));
   },
 
-  /** Disable user */
+  async findOne(req, res) {
+    User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    })
+      .then((user) => {
+        res.json(user);
+      })
+      .catch((error) => {
+        onError(error, res);
+      });
+  },
+
+  async store(req, res) {
+    User.create(req.body)
+      .then((user) => {
+        res.json(user);
+      })
+      .catch((error) => {
+        onError(error, res);
+      });
+  },
+
+  async update(req, res) {
+    const newData = req.body;
+
+    User.findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: [{ model: Company, attributes: ['id'] }],
+    })
+      .then((user) => {
+        if (!user) {
+          res.status(404).send({ message: 'User not found' });
+          return;
+        }
+
+        user.email = newData.email;
+
+        user
+          .save()
+          .then((usr) => {
+            res.json(usr);
+          })
+          .catch(error => onError(error, res));
+      })
+      .catch(error => onError(error, res));
+  },
+
   async disable(req, res) {
     User.findOne({
       where: {
@@ -29,6 +80,7 @@ module.exports = {
       .then((user) => {
         if (!user.enabled) {
           res.json(user.id);
+          return;
         }
 
         user.enabled = false;
@@ -43,7 +95,6 @@ module.exports = {
       .catch(error => onError(error, res));
   },
 
-  /** Enable user */
   async enable(req, res) {
     User.findOne({
       where: {
