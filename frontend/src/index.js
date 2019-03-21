@@ -11,7 +11,7 @@ import reducers from './js/ducks';
 
 import Login from './js/components/login/Login';
 import Main from './js/components/Main';
-import Profile from './js/components/profile/Profile';
+import Me from './js/components/users/Me';
 import CompaniesList from './js/components/companies/CompaniesList';
 import CompaniesViewer from './js/components/companies/CompanyViewer';
 import CompanyForm from './js/components/companies/CompanyForm';
@@ -64,10 +64,11 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/login" component={Login} />
       <Route path="/" component={Main} onEnter={checkAuth}>
-        <Route path="profile" component={Profile} />
+        <Route path="me" component={Me} />
         <Route path="companies" component={CompaniesList} />
         <Route path="companies/:id" component={CompaniesViewer} />
         <Route path="companies/edit/:id" component={CompanyForm} />
+        <Route path="users/edit/:id" component={UserForm} />
         <Route path="users/edit/:id" component={UserForm} />
       </Route>
     </Router>

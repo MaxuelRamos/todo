@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../db/db.js');
 
+const Point = require('../models/Point');
+
 const User = sequelize.define(
   'user',
   {
@@ -33,5 +35,11 @@ const User = sequelize.define(
     },
   },
 );
+
+User.hasMany(Point);
+Point.belongsTo(User);
+
+User.sync();
+Point.sync();
 
 module.exports = User;

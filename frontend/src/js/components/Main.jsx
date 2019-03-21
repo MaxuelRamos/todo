@@ -63,12 +63,12 @@ class Navigator extends Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <Link to="/profile" style={{ textDecoration: 'none' }}>
+          <Link to="/me" style={{ textDecoration: 'none' }}>
             <ListItem button>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary="Profile" />
+              <ListItemText primary="Me" />
             </ListItem>
           </Link>
           <Link to="/companies" style={{ textDecoration: 'none' }}>

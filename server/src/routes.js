@@ -31,6 +31,11 @@ routes.post('/api/users/', is('ADMIN'), usersController.store);
 routes.put('/api/users/:id', is('ADMIN'), usersController.update);
 routes.put('/api/users/:id/disable', is('ADMIN'), usersController.disable);
 routes.put('/api/users/:id/enable', is('ADMIN'), usersController.enable);
+routes.post(
+  '/api/users/registerPoint',
+  is('ADMIN'),
+  usersController.registerPoint,
+);
 
 /** Users */
 
