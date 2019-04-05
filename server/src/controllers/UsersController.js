@@ -118,14 +118,4 @@ module.exports = {
       })
       .catch(error => onError(error, res));
   },
-
-  async registerPoint(req, res) {
-    Point.create({ timestamp: new Date(), userId: req.user.id })
-      .then((point) => {
-        res.json(point);
-      })
-      .catch((error) => {
-        onError(error, res);
-      });
-  },
 };

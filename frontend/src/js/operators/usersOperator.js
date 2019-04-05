@@ -95,16 +95,3 @@ export function enableUser(user) {
       .catch(error => dispatch(UserActions.userFailure(error.message)));
   };
 }
-
-export function registerPoint() {
-  return (dispatch) => {
-    dispatch(UserActions.userRequest());
-
-    return jsonPost(`${api}/registerPoint`)
-      .then((json) => {
-        console.log(json);
-        dispatch(UserActions.registerPointSuccess(json));
-      })
-      .catch(error => dispatch(UserActions.userFailure(error.message)));
-  };
-}

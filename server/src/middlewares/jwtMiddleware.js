@@ -16,7 +16,10 @@ const jwtMiddleware = (req, res, next) => {
           .send({ message: 'Failed to authenticate token.' });
       }
 
-      User.findOne({ where: { id: decoded.id } })
+      User.findOne({
+        where: { id: decoded.id },
+        attributes: { include: ['companyId'] },
+      })
         .then((user) => {
           if (!user) {
             return res.status(401).send({ message: 'User not found.' });

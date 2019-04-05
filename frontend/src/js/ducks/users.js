@@ -11,7 +11,6 @@ export const { Types, Creators } = createActions({
   updateUserSuccess: ['user'],
   disableUserSuccess: ['userId'],
   enableUserSuccess: ['userId'],
-  registerPointSuccess: null,
 });
 /* #endregion */
 
@@ -76,12 +75,6 @@ const enableUserSuccess = (state = INITIAL_STATE, action) => ({
   users: state.users.map(u => (u.id === action.userId ? { ...u, enabled: true } : u)),
 });
 
-const registerPointSuccess = (state = INITIAL_STATE, action) => ({
-  ...state,
-  loading: false,
-  errorMessage: '',
-});
-
 export default createReducer(INITIAL_STATE, {
   [Types.USER_REQUEST]: userRequest,
   [Types.USER_FAILURE]: userFailure,
@@ -92,5 +85,4 @@ export default createReducer(INITIAL_STATE, {
   [Types.UPDATE_USER_SUCCESS]: updateUserSuccess,
   [Types.DISABLE_USER_SUCCESS]: disableUserSuccess,
   [Types.ENABLE_USER_SUCCESS]: enableUserSuccess,
-  [Types.REGISTER_POINT_SUCCESS]: registerPointSuccess,
 });

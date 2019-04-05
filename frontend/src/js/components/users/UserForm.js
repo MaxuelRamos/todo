@@ -12,7 +12,7 @@ import {
   updateUser,
 } from '../../operators/usersOperator';
 
-class CompanyForm extends Component {
+class UserForm extends Component {
   constructor(props) {
     super(props);
 
@@ -115,7 +115,7 @@ class CompanyForm extends Component {
   }
 }
 
-CompanyForm.propTypes = {
+UserForm.propTypes = {
   params: PropTypes.shape({}).isRequired,
   loading: PropTypes.bool.isRequired,
   editUser: PropTypes.func.isRequired,
@@ -147,4 +147,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CompanyForm);
+)(UserForm);

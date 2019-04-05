@@ -6,7 +6,8 @@
     "fetch": true,
     "localStorage": true,
     "window": true,
-    "FormData": true
+    "FormData": true,
+    "navigator": true
   },
   "rules": {
     "linebreak-style": 0,
@@ -15,6 +16,7 @@
     "eslint linebreak-style": [0, "error", "windows"],
     "max-len": ["error", 200],
     "react/require-default-props": false,
-    "react/jsx-filename-extension": "off"
+    "react/jsx-filename-extension": "off",
+    "react/sort-comp": "off"
   }
 }

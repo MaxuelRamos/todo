@@ -16,6 +16,7 @@ import CompaniesList from './js/components/companies/CompaniesList';
 import CompaniesViewer from './js/components/companies/CompanyViewer';
 import CompanyForm from './js/components/companies/CompanyForm';
 import UserForm from './js/components/users/UserForm';
+import PointForm from './js/components/point/PointForm';
 
 const router = routerMiddleware(browserHistory);
 
@@ -65,6 +66,7 @@ ReactDOM.render(
       <Route path="/login" component={Login} />
       <Route path="/" component={Main} onEnter={checkAuth}>
         <Route path="me" component={Me} />
+        <Route path="me/register" component={PointForm} />
         <Route path="companies" component={CompaniesList} />
         <Route path="companies/:id" component={CompaniesViewer} />
         <Route path="companies/edit/:id" component={CompanyForm} />

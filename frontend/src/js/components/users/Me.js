@@ -3,12 +3,12 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import { registerPoint } from '../../operators/usersOperator';
+import { push } from 'react-router-redux';
 
 class Me extends Component {
   onRegisterPointClick = () => {
-    const { registerPoint } = this.props;
-    registerPoint();
+    const { push } = this.props;
+    push('/me/register');
   };
 
   render() {
@@ -29,7 +29,7 @@ class Me extends Component {
 
 Me.propTypes = {
   loading: PropTypes.bool.isRequired,
-  registerPoint: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
@@ -38,7 +38,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    registerPoint,
+    push,
   },
   dispatch,
 );

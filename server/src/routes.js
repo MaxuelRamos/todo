@@ -8,6 +8,7 @@ const is = require('./middlewares/roleMiddleware');
 const authController = require('./controllers/AuthController');
 const companiesController = require('./controllers/CompaniesController');
 const usersController = require('./controllers/UsersController');
+const pointsController = require('./controllers/PointsController');
 
 /** Authentication */
 routes.put('/api/auth', authController.authenticate);
@@ -31,11 +32,8 @@ routes.post('/api/users/', is('ADMIN'), usersController.store);
 routes.put('/api/users/:id', is('ADMIN'), usersController.update);
 routes.put('/api/users/:id/disable', is('ADMIN'), usersController.disable);
 routes.put('/api/users/:id/enable', is('ADMIN'), usersController.enable);
-routes.post(
-  '/api/users/registerPoint',
-  is('ADMIN'),
-  usersController.registerPoint,
-);
+
+routes.post('/api/points/', pointsController.registerPoint);
 
 /** Users */
 
