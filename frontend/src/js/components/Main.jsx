@@ -7,23 +7,24 @@ import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { logout, loadAuthenticatedUser } from '../operators/authOperator';
-
+import { push } from 'react-router-redux';
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import MailIcon from '@material-ui/icons/Mail';
+import Toolbar from '@material-ui/core/Toolbar';
+import { withStyles } from '@material-ui/core/styles';
 import styles from '../styles/NavigatorStyle';
+import { logout, loadAuthenticatedUser } from '../operators/authOperator';
 
 class Navigator extends Component {
   state = {
@@ -51,6 +52,15 @@ class Navigator extends Component {
     logout();
   };
 
+  goTo(dest) {
+    const { push } = this.props;
+    const { mobileOpen } = this.state;
+    if (mobileOpen) {
+      this.handleDrawerToggle();
+    }
+    push(dest);
+  }
+
   render() {
     const {
       classes, theme, children, authenticatedUser,
@@ -63,22 +73,18 @@ class Navigator extends Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <Link to="/me" style={{ textDecoration: 'none' }}>
-            <ListItem button>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Me" />
-            </ListItem>
-          </Link>
-          <Link to="/companies" style={{ textDecoration: 'none' }}>
-            <ListItem button>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Companies" />
-            </ListItem>
-          </Link>
+          <ListItem button onClick={() => this.goTo('/me')}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary="Me" />
+          </ListItem>
+          <ListItem button onClick={() => this.goTo('/companies')}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary="Companies" />
+          </ListItem>
         </List>
       </div>
     );
@@ -178,6 +184,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
   {
     logout,
     loadAuthenticatedUser,
+    push,
   },
   dispatch,
 );
@@ -192,6 +199,7 @@ Navigator.propTypes = {
   children: PropTypes.node,
   logout: PropTypes.func.isRequired,
   loadAuthenticatedUser: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
 };
 
 export default connect(

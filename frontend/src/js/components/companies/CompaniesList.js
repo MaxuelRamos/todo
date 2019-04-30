@@ -11,14 +11,22 @@ import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { push } from 'react-router-redux';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import { loadCompanies } from '../../operators/companiesOperator';
 
 const styles = theme => ({
-  table: {
-    width: '100%',
+  root: {
+    flexGrow: 1,
   },
   progress: {
     margin: theme.spacing.unit * 2,
+  },
+  tableCell: {
+    paddingRight: 4,
+    paddingLeft: 5,
+  },
+  table: {
+    minWidth: 1,
   },
 });
 
@@ -43,46 +51,106 @@ class CompaniesList extends Component {
     return (
       <div>
         {loading && <CircularProgress className={classes.progress} />}
-
         {!loading && (
           <div>
-            <Button
-              variant="contained"
-              disabled={loading}
-              onClick={this.onNewCompanyClick}
+            <Grid
+              container
+              direction="row"
+              justify="flex-end"
+              alignItems="center"
             >
-              {'Criar'}
-            </Button>
-
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Nome</TableCell>
-                  <TableCell>cnpj</TableCell>
-                  <TableCell align="right">Data de Expiração</TableCell>
-                  <TableCell align="right">Usuários</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {companies.map(company => (
-                  <TableRow
-                    hover
-                    onClick={event => this.onCompanyClick(event, company)}
-                    tabIndex={-1}
-                    key={company.id}
-                  >
-                    <TableCell component="th" scope="row">
-                      {company.name}
+              <Button
+                variant="contained"
+                disabled={loading}
+                onClick={this.onNewCompanyClick}
+              >
+                {'Criar'}
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell className={classes.tableCell}>Nome</TableCell>
+                    <TableCell className={classes.tableCell}>cnpj</TableCell>
+                    <TableCell className={classes.tableCell} align="right">
+                      {'Data de Expiração'}
                     </TableCell>
-                    <TableCell>{company.cnpj}</TableCell>
-                    <TableCell align="right">{company.expiration}</TableCell>
-                    <TableCell align="right">{company.userCount}</TableCell>
+                    <TableCell className={classes.tableCell} align="right">
+                      {'Usuários'}
+                    </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody>
+                  {companies.map(company => (
+                    <TableRow
+                      hover
+                      onClick={event => this.onCompanyClick(event, company)}
+                      tabIndex={-1}
+                      key={company.id}
+                    >
+                      <TableCell
+                        className={classes.tableCell}
+                        component="th"
+                        scope="row"
+                      >
+                        {company.name}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {company.cnpj}
+                      </TableCell>
+                      <TableCell className={classes.tableCell} align="right">
+                        {company.expiration}
+                      </TableCell>
+                      <TableCell className={classes.tableCell} align="right">
+                        {company.userCount}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Grid>
           </div>
         )}
+        {
+          //   {!loading && (
+          //   // <div>
+          //   //
+          //     <Grid>
+          //       <Grid item xs={12}>
+          //         <Table>
+          //           <TableHead>
+          //             <TableRow>
+          //               <TableCell>Nome</TableCell>
+          //               <TableCell>cnpj</TableCell>
+          //               <TableCell align="right">Data de Expiração</TableCell>
+          //               <TableCell align="right">Usuários</TableCell>
+          //             </TableRow>
+          //           </TableHead>
+          //           <TableBody>
+          //             {companies.map(company => (
+          //               <TableRow
+          //                 hover
+          //                 onClick={event => this.onCompanyClick(event, company)}
+          //                 tabIndex={-1}
+          //                 key={company.id}
+          //               >
+          //                 <TableCell component="th" scope="row">
+          //                   {company.name}
+          //                 </TableCell>
+          //                 <TableCell>{company.cnpj}</TableCell>
+          //                 <TableCell align="right">{company.expiration}</TableCell>
+          //                 <TableCell align="right">{company.userCount}</TableCell>
+          //               </TableRow>
+          //             ))}
+          //           </TableBody>
+          //         </Table>
+          //       </Grid>
+          //     </Grid>
+          //     // </div>
+          //   )}
+          // </Grid>
+        }
       </div>
     );
   }

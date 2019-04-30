@@ -26,14 +26,22 @@ routes.post('/api/companies/', is('ADMIN'), companiesController.store);
 routes.put('/api/companies/:id', is('ADMIN'), companiesController.update);
 routes.delete('/api/companies/:id', is('ADMIN'), companiesController.disable);
 
-routes.get('/api/users', is('ADMIN'), usersController.index);
-routes.get('/api/users/:id', is('ADMIN'), usersController.findOne);
-routes.post('/api/users/', is('ADMIN'), usersController.store);
-routes.put('/api/users/:id', is('ADMIN'), usersController.update);
-routes.put('/api/users/:id/disable', is('ADMIN'), usersController.disable);
-routes.put('/api/users/:id/enable', is('ADMIN'), usersController.enable);
+routes.get('/api/users', is('ADMIN', 'EMPLOYER'), usersController.index);
+routes.get('/api/users/:id', is('ADMIN', 'EMPLOYER'), usersController.findOne);
+routes.post('/api/users/', is('ADMIN', 'EMPLOYER'), usersController.store);
+routes.put('/api/users/:id', is('ADMIN', 'EMPLOYER'), usersController.update);
+routes.put(
+  '/api/users/:id/disable',
+  is('ADMIN', 'EMPLOYER'),
+  usersController.disable,
+);
+routes.put(
+  '/api/users/:id/enable',
+  is('ADMIN', 'EMPLOYER'),
+  usersController.enable,
+);
 
-routes.post('/api/points/', pointsController.registerPoint);
+routes.post('/api/points/', is('ADMIN'), pointsController.registerPoint);
 
 /** Users */
 

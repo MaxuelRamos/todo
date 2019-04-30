@@ -24,7 +24,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // use morgan to log requests to the console
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'dev') {
+  app.use(morgan('dev'));
+}
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
@@ -37,6 +39,8 @@ app.use(require('./routes'));
 // Handle React routing, return all requests to React app
 
 app.listen(5000, host, () => console.log(`Listening on port ${5000}!!!!!`));
+
+module.exports = app;
 
 // const server = https.createServer(options, app);
 // server.listen(port, () => {

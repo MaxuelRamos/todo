@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha --recursive",
-    "dev": "concurrently --kill-others-on-fail \"nodemon --inspect src/index.js\" \"cd ..\\frontend\\ && yarn start\"",
+    "test": "SET NODE_ENV=test && mocha",
+    "dev": "SET NODE_ENV=dev && concurrently --kill-others-on-fail \"nodemon --inspect src/index.js\" \"cd ..\\frontend\\ && yarn start\"",
     "migrate": "node ./src/db/callMigrations.js"
   },
   "dependencies": {
@@ -30,7 +30,8 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-prettier": "^3.0.1",
-    "mocha": "^6.0.2",
-    "nodemon": "^1.18.10"
+    "mocha": "^6.1.4",
+    "nodemon": "^1.18.10",
+    "supertest": "^4.0.2"
   }
 }

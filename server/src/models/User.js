@@ -39,7 +39,9 @@ const User = sequelize.define(
 User.hasMany(Point);
 Point.belongsTo(User);
 
-User.sync();
-Point.sync();
+if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test') {
+  User.sync();
+  Point.sync();
+}
 
 module.exports = User;

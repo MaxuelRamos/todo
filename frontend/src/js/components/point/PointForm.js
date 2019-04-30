@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
-import Camera from 'react-html5-camera-photo';
+import Camera, { FACING_MODES } from 'react-html5-camera-photo';
 import GoogleMapReact from 'google-map-react';
+import Grid from '@material-ui/core/Grid';
 import registerPoint from '../../operators/pointsOperator';
 
 import 'react-html5-camera-photo/build/css/index.css';
@@ -105,20 +106,32 @@ class CompanyForm extends Component {
 
     const center = [point.lat, point.long];
     return (
-      <div>
+      <Grid item xs={12}>
         {loading && <CircularProgress />}
 
         <form onSubmit={this.handleSubmit}>
           {!point.dataUri && (
-            <Camera
-              isFullscreen
-              imageCompression={0.1}
-              isMaxResolution={false}
-              sizeFactor={0.2}
-              onTakePhoto={(dataUri) => {
-                this.onTakePhoto(dataUri);
+            <div
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 9000,
+                backgroundColor: 'black',
+                overflow: 'hidden',
+                backgroundSize: 'cover',
               }}
-            />
+            >
+              <Camera
+                style={{ height: '100vh' }}
+                idealResolution={{ width: 75, height: 100 }}
+                onTakePhoto={(dataUri) => {
+                  this.onTakePhoto(dataUri);
+                }}
+              />
+            </div>
           )}
 
           {point.dataUri && (
@@ -150,20 +163,19 @@ class CompanyForm extends Component {
                   </GoogleMapReact>
                 </div>
               )}
+              <Button
+                variant="contained"
+                type="submit"
+                disabled={loading || !point.dataUri || !point.lat}
+              >
+                {'Salvar'}
+              </Button>
+              <br />
+              {errorMessage}
             </div>
           )}
-
-          <Button
-            variant="contained"
-            type="submit"
-            disabled={loading || !point.dataUri || !point.lat}
-          >
-            {'Salvar'}
-          </Button>
-          <br />
-          {errorMessage}
         </form>
-      </div>
+      </Grid>
     );
   }
 }

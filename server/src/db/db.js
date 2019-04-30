@@ -1,8 +1,7 @@
 const Sequelize = require('sequelize');
+const env = require('../config/index');
 
-const sequelize = new Sequelize(
-  'postgres://ponto:ponto@admin@localhost:5432/ponto',
-);
+const sequelize = new Sequelize(env.db, { logging: false });
 
 sequelize
   .authenticate()
