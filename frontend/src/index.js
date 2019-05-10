@@ -1,52 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyMiddleware, compose, createStore } from 'redux';
-import { createLogger } from 'redux-logger';
-import thunkMiddleware from 'redux-thunk';
 import { Router, Route, browserHistory } from 'react-router';
-import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
 import * as serviceWorker from './serviceWorker';
-import reducers from './js/ducks';
+import Login from './js/views/login/Login';
+import Main from './js/views/Main';
+import Me from './js/views/users/Me';
+import CompaniesList from './js/views/companies/CompaniesList';
+import UsersList from './js/views/users/UsersList';
+import CompaniesViewer from './js/views/companies/CompanyViewer';
+import CompanyForm from './js/views/companies/CompanyForm';
+import UserForm from './js/views/users/UserForm';
+import PointForm from './js/views/point/PointForm';
 
-import Login from './js/components/login/Login';
-import Main from './js/components/Main';
-import Me from './js/components/users/Me';
-import CompaniesList from './js/components/companies/CompaniesList';
-import CompaniesViewer from './js/components/companies/CompanyViewer';
-import CompanyForm from './js/components/companies/CompanyForm';
-import UserForm from './js/components/users/UserForm';
-import PointForm from './js/components/point/PointForm';
-
-const router = routerMiddleware(browserHistory);
-
-/* #region Debugging options */
-const isDebugging = process.env.NODE_ENV === 'development';
-
-// Configura o logger para o redux que vai apresentar as actions no console do browser
-const logger = createLogger({
-  predicate: () => isDebugging,
-  duration: true,
-  timestamp: true,
-  collapsed: true,
-});
-
-// Configura a extensão do redux-devtools, se estiver disponível
-// http://zalmoxisus.github.io/redux-devtools-extension/
-let composeEnhancers = compose;
-if (isDebugging) {
-  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-}
-/* #endregion */
-
-/* #region Store */
-
-// Cria o store do redux à partir dos reducers, plugando os middlewares do projeto
-const store = createStore(
-  reducers,
-  composeEnhancers(applyMiddleware(thunkMiddleware, router, logger)),
-);
-/* #endregion */
+import store from './js/store/store';
 
 const history = syncHistoryWithStore(browserHistory, store);
 
@@ -67,6 +35,7 @@ ReactDOM.render(
       <Route path="/" component={Main} onEnter={checkAuth}>
         <Route path="me" component={Me} />
         <Route path="me/register" component={PointForm} />
+        <Route path="users" component={UsersList} />
         <Route path="companies" component={CompaniesList} />
         <Route path="companies/:id" component={CompaniesViewer} />
         <Route path="companies/edit/:id" component={CompanyForm} />

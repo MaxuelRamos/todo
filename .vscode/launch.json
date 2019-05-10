@@ -8,6 +8,12 @@
       "processId": "${command:PickProcess}",
       "restart": true,
       "protocol": "inspector"
+    },
+    {
+      "name": "Launch index.html",
+      "type": "chrome",
+      "request": "launch",
+      "file": "${workspaceFolder}/frontend/public/index.html"
     }
   ]
 }

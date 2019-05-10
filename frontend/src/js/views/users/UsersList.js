@@ -12,7 +12,14 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UndoIcon from '@material-ui/icons/Undo';
 import EditIcon from '@material-ui/icons/Edit';
-import { loadUsers } from '../../operators/usersOperator';
+import Button from '@material-ui/core/Button';
+import { push } from 'react-router-redux';
+import {
+  disableUser,
+  enableUser,
+  editUser,
+  loadEmployers,
+} from '../../operators/usersOperator';
 
 const styles = theme => ({
   table: {
@@ -23,18 +30,44 @@ const styles = theme => ({
   },
 });
 
-class UserList extends Component {
+class UsersList extends Component {
   componentDidMount = () => {
-    const { loadUsers, company } = this.props;
-    loadUsers(company);
+    const { loadEmployers } = this.props;
+    loadEmployers();
+  };
+
+  onNewUserClick = () => {
+    const { push } = this.props;
+    push('/users/edit/0');
+  };
+
+  onEditUser = (user) => {
+    const { editUser } = this.props;
+    editUser(user.id);
+  };
+
+  onDisableUser = (user) => {
+    const { disableUser } = this.props;
+    disableUser(user);
+  };
+
+  onEnableUser = (user) => {
+    const { enableUser } = this.props;
+    enableUser(user);
   };
 
   render() {
-    const {
-      users, classes, onEdit, onDisable, onEnable,
-    } = this.props;
+    const { users, classes, loading } = this.props;
     return (
       <div>
+        <Button
+          variant="contained"
+          disabled={loading}
+          onClick={this.onNewUserClick}
+        >
+          {'Criar Usuário'}
+        </Button>
+
         {users && (
           <Table className={classes.table}>
             <TableHead>
@@ -56,7 +89,7 @@ class UserList extends Component {
                   <TableCell>
                     <IconButton
                       aria-label="Editar"
-                      onClick={() => onEdit(user)}
+                      onClick={() => this.onEditUser(user)}
                     >
                       <EditIcon />
                     </IconButton>
@@ -65,7 +98,7 @@ class UserList extends Component {
                     {user.enabled && (
                       <IconButton
                         aria-label="Desabilitar"
-                        onClick={() => onDisable(user)}
+                        onClick={() => this.onDisableUser(user)}
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -74,7 +107,7 @@ class UserList extends Component {
                     {!user.enabled && (
                       <IconButton
                         aria-label="Habilitar"
-                        onClick={() => onEnable(user)}
+                        onClick={() => this.onEnableUser(user)}
                       >
                         <UndoIcon />
                       </IconButton>
@@ -90,22 +123,28 @@ class UserList extends Component {
   }
 }
 
-UserList.propTypes = {
+UsersList.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  company: PropTypes.shape({}).isRequired,
+  disableUser: PropTypes.func.isRequired,
+  editUser: PropTypes.func.isRequired,
+  enableUser: PropTypes.func.isRequired,
+  loadEmployers: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  push: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  onEdit: PropTypes.func.isRequired,
-  onDisable: PropTypes.func.isRequired,
-  onEnable: PropTypes.func.isRequired,
-  loadUsers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
+  loading: store.companies.loading,
   users: store.users.users,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    loadUsers,
+    disableUser,
+    enableUser,
+    editUser,
+    loadEmployers,
+    push,
   },
   dispatch,
 );
@@ -113,4 +152,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withStyles(styles)(UserList));
+)(withStyles(styles)(UsersList));

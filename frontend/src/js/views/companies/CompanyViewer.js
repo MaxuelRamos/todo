@@ -15,7 +15,7 @@ import {
   enableUser,
   editUser,
 } from '../../operators/usersOperator';
-import UserList from '../users/UserList';
+import CompanyUsersList from '../users/CompanyUsersList';
 
 class CompaniesViewer extends Component {
   componentDidMount() {
@@ -90,7 +90,7 @@ class CompaniesViewer extends Component {
 
             <br />
 
-            <UserList
+            <CompanyUsersList
               company={selected}
               onDisable={this.onDisableUser}
               onEnable={this.onEnableUser}

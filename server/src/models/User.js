@@ -20,6 +20,7 @@ const User = sequelize.define(
     role: {
       type: Sequelize.STRING,
       notNull: true,
+      defaultValue: 'USER',
       max: 10,
     },
     enabled: {

@@ -1,6 +1,9 @@
+const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Point = require('../models/Point');
 const Company = require('../models/Company');
+
+const defaultPassword = bcrypt.hashSync('123456', 10);
 
 const onError = (error, res) => {
   console.log(error);
@@ -21,11 +24,25 @@ module.exports = {
       .catch(error => onError(error, res));
   },
 
+  async findEmployers(req, res) {
+    User.findAll({
+      where: {
+        role: 'EMPLOYER',
+      },
+      order: ['email'],
+    })
+      .then((users) => {
+        res.json(users);
+      })
+      .catch(error => onError(error, res));
+  },
+
   async findOne(req, res) {
     User.findOne({
       where: {
         id: req.params.id,
       },
+      attributes: { include: ['companyId'] },
     })
       .then((user) => {
         res.json(user);
@@ -36,7 +53,19 @@ module.exports = {
   },
 
   async store(req, res) {
-    User.create(req.body)
+    const { email, role, companyId } = req.body;
+
+    const newUser = { email, companyId, password: defaultPassword };
+
+    if (req.user.role === 'ADMIN') {
+      newUser.role = role;
+      newUser.companyId = companyId;
+    } else if (req.user.companyId !== companyId) {
+      res.status(403).send();
+      return;
+    }
+
+    User.create(newUser)
       .then((user) => {
         res.json(user);
       })

@@ -1,4 +1,4 @@
-import { push } from 'react-router-redux';
+import { push, goBack } from 'react-router-redux';
 import { Creators as UserActions } from '../ducks/users';
 import { jsonFetch, jsonPost, jsonPut } from '../utils/http';
 
@@ -9,6 +9,20 @@ export function loadUsers(company) {
     dispatch(UserActions.userRequest());
 
     return jsonFetch(`${api}/?companyId=${company.id}`)
+      .then((json) => {
+        dispatch(UserActions.loadUsersSuccess(json));
+      })
+      .catch((error) => {
+        dispatch(UserActions.userFailure(error));
+      });
+  };
+}
+
+export function loadEmployers() {
+  return (dispatch) => {
+    dispatch(UserActions.userRequest());
+
+    return jsonFetch(`${api}/employers`)
       .then((json) => {
         dispatch(UserActions.loadUsersSuccess(json));
       })
@@ -66,7 +80,7 @@ export function updateUser(user) {
     return jsonPut(`${api}/${user.id}`, user)
       .then((json) => {
         dispatch(UserActions.updateUserSuccess(json));
-        dispatch(push(`/companies/${json.company.id}`));
+        dispatch(goBack());
       })
       .catch(error => dispatch(UserActions.userFailure(error.message)));
   };
