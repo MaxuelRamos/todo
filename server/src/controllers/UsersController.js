@@ -38,10 +38,18 @@ module.exports = {
   },
 
   async findOne(req, res) {
+    const where = { id: req.params.id };
+
+    if (req.user.role === 'USER' && Number(req.params.id) !== req.user.id) {
+      res.status(403).send();
+      return;
+    }
+    if (req.user.role === 'EMPLOYER') {
+      where.companyId = req.user.companyId;
+    }
+
     User.findOne({
-      where: {
-        id: req.params.id,
-      },
+      where,
       attributes: { include: ['companyId'] },
     })
       .then((user) => {
@@ -54,6 +62,15 @@ module.exports = {
 
   async store(req, res) {
     const { email, role, companyId } = req.body;
+
+    if (req.user.role === 'USER' && Number(req.params.id) !== req.user.id) {
+      res.status(403).send();
+      return;
+    }
+    if (req.user.role === 'EMPLOYER' && companyId !== req.user.id) {
+      res.status(403).send();
+      return;
+    }
 
     const newUser = { email, companyId, password: defaultPassword };
 

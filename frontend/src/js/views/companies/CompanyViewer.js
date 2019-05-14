@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -16,6 +16,7 @@ import {
   editUser,
 } from '../../operators/usersOperator';
 import CompanyUsersList from '../users/CompanyUsersList';
+import userIs from '../../utils/permissionUtils';
 
 class CompaniesViewer extends Component {
   componentDidMount() {
@@ -60,21 +61,25 @@ class CompaniesViewer extends Component {
         {loading && <CircularProgress />}
         {selected && (
           <div>
-            <Button
-              variant="contained"
-              disabled={loading}
-              onClick={this.onEditCompanyClick}
-            >
-              {'Editar'}
-            </Button>
+            {userIs('ADMIN') && (
+              <Fragment>
+                <Button
+                  variant="contained"
+                  disabled={loading}
+                  onClick={this.onEditCompanyClick}
+                >
+                  {'Editar'}
+                </Button>
 
-            <Button
-              variant="contained"
-              disabled={loading}
-              onClick={this.onDisableCompanyClick}
-            >
-              {'Desabilitar'}
-            </Button>
+                <Button
+                  variant="contained"
+                  disabled={loading}
+                  onClick={this.onDisableCompanyClick}
+                >
+                  {'Desabilitar'}
+                </Button>
+              </Fragment>
+            )}
 
             <Button
               variant="contained"

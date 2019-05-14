@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // use morgan to log requests to the console
-if (process.env.NODE_ENV === 'dev') {
+if (process.env.NODE_ENV === 'dev ') {
   app.use(morgan('dev'));
 }
 

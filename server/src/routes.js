@@ -21,16 +21,20 @@ routes.get('/api/auth', authController.authenticated);
 
 /** Companies */
 routes.get('/api/companies', is('ADMIN'), companiesController.index);
-routes.get('/api/companies/:id', is('ADMIN'), companiesController.findOne);
+routes.get(
+  '/api/companies/:id',
+  is('ADMIN', 'EMPLOYER'),
+  companiesController.findOne,
+);
 routes.post('/api/companies/', is('ADMIN'), companiesController.store);
 routes.put('/api/companies/:id', is('ADMIN'), companiesController.update);
 routes.delete('/api/companies/:id', is('ADMIN'), companiesController.disable);
 
 routes.get('/api/users', is('ADMIN', 'EMPLOYER'), usersController.index);
 routes.get('/api/users/employers', is('ADMIN'), usersController.findEmployers);
-routes.get('/api/users/:id', is('ADMIN', 'EMPLOYER'), usersController.findOne);
+routes.get('/api/users/:id', usersController.findOne);
 routes.post('/api/users/', is('ADMIN', 'EMPLOYER'), usersController.store);
-routes.put('/api/users/:id', is('ADMIN', 'EMPLOYER'), usersController.update);
+routes.put('/api/users/:id', usersController.update);
 routes.put(
   '/api/users/:id/disable',
   is('ADMIN', 'EMPLOYER'),
@@ -42,7 +46,7 @@ routes.put(
   usersController.enable,
 );
 
-routes.post('/api/points/', is('ADMIN'), pointsController.registerPoint);
+routes.post('/api/points/', is('USER'), pointsController.registerPoint);
 
 /** Users */
 

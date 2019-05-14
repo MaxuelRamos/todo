@@ -95,6 +95,19 @@ class Navigator extends Component {
               </ListItem>
             </Fragment>
           )}
+
+          {userIs('EMPLOYER') && (
+            <ListItem
+              button
+              onClick={() => this.goTo(`/companies/${authenticatedUser.companyId}`)
+              }
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Empresa" />
+            </ListItem>
+          )}
         </List>
       </div>
     );

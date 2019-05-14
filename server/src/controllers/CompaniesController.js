@@ -23,6 +23,13 @@ module.exports = {
 
   /** Get by id */
   async findOne(req, res) {
+    if (req.user.role === 'EMPLOYER') {
+      if (req.user.companyId !== Number(req.params.id)) {
+        res.status(403).json({ message: 'Forbidden' });
+        return;
+      }
+    }
+
     Company.findOne({
       where: {
         id: req.params.id,
