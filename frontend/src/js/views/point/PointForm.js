@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
-import Camera, { FACING_MODES } from 'react-html5-camera-photo';
+import Camera from 'react-html5-camera-photo';
 import GoogleMapReact from 'google-map-react';
 import Grid from '@material-ui/core/Grid';
 import registerPoint from '../../operators/pointsOperator';
-
 import 'react-html5-camera-photo/build/css/index.css';
 
 const K_WIDTH = 25;

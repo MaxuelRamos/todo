@@ -160,8 +160,7 @@ class Navigator extends Component {
                     onClose={this.handleClose}
                   >
                     <MenuItem onClick={this.handleAccountMenuClose}>
-
-                      Sair
+                      {'Sair'}
                     </MenuItem>
                   </Menu>
                 </div>

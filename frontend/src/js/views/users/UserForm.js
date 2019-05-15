@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,9 +6,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { push } from 'react-router-redux';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import { loadCompanies } from '../../operators/companiesOperator';
 import {
   editUser,
@@ -16,7 +13,6 @@ import {
   updateUser,
 } from '../../operators/usersOperator';
 import userIs from '../../utils/permissionUtils';
-import CustomDropdown from '../../components/CustomDropdown/CustomDropdown';
 
 class UserForm extends Component {
   constructor(props) {
@@ -103,7 +99,7 @@ class UserForm extends Component {
 
   render() {
     const {
-      loading, errorMessage, authenticatedUser, companies,
+      loading, errorMessage, companies,
     } = this.props;
     const { user } = this.state;
     return (

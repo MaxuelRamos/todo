@@ -2,30 +2,58 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import withStyles from '@material-ui/core/styles/withStyles';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Email from '@material-ui/icons/Email';
-import Icon from '@material-ui/core/Icon';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 import { loginUser } from '../../operators/authOperator';
-import GridContainer from '../../components/Grid/GridContainer';
-import GridItem from '../../components/Grid/GridItem';
-import Card from '../../components/Card/Card';
-import CardHeader from '../../components/Card/CardHeader';
-import CardBody from '../../components/Card/CardBody';
-import CardFooter from '../../components/Card/CardFooter';
-import CustomInput from '../../components/CustomInput/CustomInput';
-import Button from '../../components/CustomButtons/Button';
+import Alert from '../../components/Alert';
 
-import LoginStyle from '../../styles/LoginStyle';
-import image from '../../assets/img/bg7.jpg';
+const styles = theme => ({
+  main: {
+    width: 'auto',
+    display: 'block', // Fix IE 11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing.unit * 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
+      .spacing.unit * 3}px`,
+  },
+  avatar: {
+    margin: theme.spacing.unit,
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing.unit,
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 3,
+  },
+});
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: '',
+      email: '',
       password: '',
     };
 
@@ -35,105 +63,68 @@ class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { username, password } = this.state;
+    const { email, password } = this.state;
     const { loginUser } = this.props;
 
-    loginUser({ username, password });
+    loginUser({ email, password });
   };
 
   handleChange = (e) => {
-    this.setState({ [e.target.id]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
     const { loading, errorMessage, classes } = this.props;
-    const { username, password } = this.state;
+    const { email, password } = this.state;
     return (
-      <div
-        className={classes.pageHeader}
-        style={{
-          backgroundImage: `url(${image})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'top center',
-        }}
-      >
-        <div className={classes.container}>
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={4}>
-              <Card>
-                <form className={classes.form} onSubmit={this.handleSubmit}>
-                  <CardHeader color="primary" className={classes.cardHeader}>
-                    <Typography variant="h6" color="inherit" noWrap>
-                      {'Login'}
-                    </Typography>
-                  </CardHeader>
-                  <CardBody>
-                    <CustomInput
-                      labelText="Email"
-                      id="username"
-                      margin="normal"
-                      variant="outlined"
-                      placeholder="Informe seu email..."
-                      type="email"
-                      name="username"
-                      required
-                      formControlProps={{
-                        fullWidth: true,
-                        onChange: this.handleChange,
-                        value: username,
-                      }}
-                      inputProps={{
-                        type: 'email',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Email className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    <CustomInput
-                      labelText="Senha"
-                      id="password"
-                      margin="normal"
-                      variant="outlined"
-                      type="password"
-                      placeholder="Informe sua senha..."
-                      name="password"
-                      required
-                      formControlProps={{
-                        fullWidth: true,
-                        onChange: this.handleChange,
-                        value: password,
-                      }}
-                      inputProps={{
-                        type: 'password',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Icon className={classes.inputIconsColor}>
-                              {'lock_outline'}
-                            </Icon>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    {errorMessage}
-                  </CardBody>
-                  <CardFooter className={classes.cardFooter}>
-                    <Button
-                      color="primary"
-                      size="lg"
-                      type="submit"
-                      disabled={loading}
-                    >
-                      {'Entrar'}
-                    </Button>
-                  </CardFooter>
-                </form>
-              </Card>
-            </GridItem>
-          </GridContainer>
-        </div>
-      </div>
+      <main className={classes.main}>
+        <CssBaseline />
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            {'Login'}
+          </Typography>
+          <form className={classes.form} onSubmit={this.handleSubmit}>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="email">Email</InputLabel>
+              <Input
+                id="email"
+                name="email"
+                autoComplete="email"
+                type="email"
+                value={email}
+                onChange={this.handleChange}
+                autoFocus
+              />
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Senha</InputLabel>
+              <Input
+                name="password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={this.handleChange}
+              />
+            </FormControl>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              disabled={loading}
+              className={classes.submit}
+            >
+              {'Entrar'}
+            </Button>
+
+            <Alert text={errorMessage} type="danger" />
+          </form>
+        </Paper>
+      </main>
     );
   }
 }
@@ -151,13 +142,13 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 );
 
 Login.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   errorMessage: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   loginUser: PropTypes.func.isRequired,
+  classes: PropTypes.shape({}).isRequired,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withStyles(LoginStyle)(Login));
+)(withStyles(styles)(Login));

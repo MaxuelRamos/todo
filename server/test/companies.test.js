@@ -18,11 +18,11 @@ describe('Companies API Integration Tests', () => {
 
     userToken = (await request(app)
       .put('/api/auth')
-      .send({ username: 'user@ponto.com', password: '123456' })).body.token;
+      .send({ email: 'user@ponto.com', password: '123456' })).body.token;
 
     adminToken = (await request(app)
       .put('/api/auth')
-      .send({ username: 'admin@ponto.com', password: '123456' })).body.token;
+      .send({ email: 'admin@ponto.com', password: '123456' })).body.token;
   });
 
   describe('#GET /companies', () => {

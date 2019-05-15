@@ -11,7 +11,7 @@ const onError = (error, res) => {
 module.exports = {
   async authenticate(req, res) {
     User.findOne({
-      where: { email: req.body.username },
+      where: { email: req.body.email },
       attributes: { include: ['password'] },
     })
       .then((user) => {
