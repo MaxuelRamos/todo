@@ -6,9 +6,9 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import Home from '@material-ui/icons/Home';
+import People from '@material-ui/icons/People';
 import MenuIcon from '@material-ui/icons/Menu';
-import Typography from '@material-ui/core/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -23,6 +23,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../styles/NavigatorStyle';
 import { logout, loadAuthenticatedUser } from '../operators/authOperator';
+import { editUser } from '../operators/usersOperator';
 import userIs from '../utils/permissionUtils';
 
 class Navigator extends Component {
@@ -44,11 +45,21 @@ class Navigator extends Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleAccountMenuClose = () => {
+  handleMenuClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handleLogout = () => {
     const { logout } = this.props;
     this.setState({ anchorEl: null });
 
     logout();
+  };
+
+  handleEditProfile = () => {
+    const { editUser, authenticatedUser } = this.props;
+    this.setState({ anchorEl: null });
+    editUser(authenticatedUser.id);
   };
 
   goTo(dest) {
@@ -72,24 +83,17 @@ class Navigator extends Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <ListItem button onClick={() => this.goTo('/me')}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary="Me" />
-          </ListItem>
-
           {userIs('ADMIN') && (
             <Fragment>
               <ListItem button onClick={() => this.goTo('/companies')}>
                 <ListItemIcon>
-                  <InboxIcon />
+                  <Home />
                 </ListItemIcon>
                 <ListItemText primary="Empresas" />
               </ListItem>
               <ListItem button onClick={() => this.goTo('/users')}>
                 <ListItemIcon>
-                  <InboxIcon />
+                  <People />
                 </ListItemIcon>
                 <ListItemText primary="Usuários" />
               </ListItem>
@@ -103,7 +107,7 @@ class Navigator extends Component {
               }
             >
               <ListItemIcon>
-                <InboxIcon />
+                <Home />
               </ListItemIcon>
               <ListItemText primary="Empresa" />
             </ListItem>
@@ -127,43 +131,34 @@ class Navigator extends Component {
                 >
                   <MenuIcon />
                 </IconButton>
-                <Typography
-                  variant="h6"
+                <div className={classes.title} />
+                <IconButton
+                  aria-owns={open ? 'menu-appbar' : undefined}
+                  aria-haspopup="true"
+                  onClick={this.handleMenu}
                   color="inherit"
-                  noWrap
-                  className={classes.grow}
                 >
-                  {authenticatedUser && authenticatedUser.email}
-                </Typography>
-
-                <div>
-                  <IconButton
-                    aria-owns={open ? 'menu-appbar' : undefined}
-                    aria-haspopup="true"
-                    onClick={this.handleMenu}
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                  </IconButton>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={open}
-                    onClose={this.handleClose}
-                  >
-                    <MenuItem onClick={this.handleAccountMenuClose}>
-                      {'Sair'}
-                    </MenuItem>
-                  </Menu>
-                </div>
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={this.handleMenuClose}
+                >
+                  <MenuItem onClick={this.handleEditProfile}>
+                    {'Editar Perfil'}
+                  </MenuItem>
+                  <MenuItem onClick={this.handleLogout}>Sair</MenuItem>
+                </Menu>
               </Toolbar>
             </AppBar>
             <nav className={classes.drawer}>
@@ -212,6 +207,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     logout,
+    editUser,
     loadAuthenticatedUser,
     push,
   },
@@ -227,6 +223,7 @@ Navigator.propTypes = {
   authenticatedUser: PropTypes.shape({}),
   children: PropTypes.node,
   logout: PropTypes.func.isRequired,
+  editUser: PropTypes.func.isRequired,
   loadAuthenticatedUser: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
 };

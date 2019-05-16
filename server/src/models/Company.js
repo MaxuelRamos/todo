@@ -34,7 +34,7 @@ const Company = sequelize.define(
       },
     },
     expiration: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
       allowNull: true,
     },
     enabled: {
@@ -49,7 +49,7 @@ const Company = sequelize.define(
 Company.hasMany(User);
 User.belongsTo(Company);
 
-// Company.sync();
-// User.sync();
+Company.sync();
+User.sync();
 
 module.exports = Company;

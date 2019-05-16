@@ -29,6 +29,9 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
+  title: {
+    flexGrow: 1,
+  },
 });
 
 export default styles;

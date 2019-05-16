@@ -12,7 +12,10 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UndoIcon from '@material-ui/icons/Undo';
 import EditIcon from '@material-ui/icons/Edit';
-import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Fab from '@material-ui/core/Fab';
+import AccountPlus from '@material-ui/icons/PersonAdd';
 import { push } from 'react-router-redux';
 import {
   disableUser,
@@ -22,8 +25,14 @@ import {
 } from '../../operators/usersOperator';
 
 const styles = theme => ({
-  table: {
-    width: '100%',
+  tableCell: {
+    paddingRight: 0,
+    paddingLeft: 0,
+    width: '5%',
+  },
+  disabled: {
+    opacity: 0.5,
+    color: 'red',
   },
   progress: {
     margin: theme.spacing.unit * 2,
@@ -41,17 +50,17 @@ class UsersList extends Component {
     push('/users/edit/0');
   };
 
-  onEditUser = (user) => {
+  onEdit = (user) => {
     const { editUser } = this.props;
     editUser(user.id);
   };
 
-  onDisableUser = (user) => {
+  onDisable = (user) => {
     const { disableUser } = this.props;
     disableUser(user);
   };
 
-  onEnableUser = (user) => {
+  onEnable = (user) => {
     const { enableUser } = this.props;
     enableUser(user);
   };
@@ -60,64 +69,88 @@ class UsersList extends Component {
     const { users, classes, loading } = this.props;
     return (
       <div>
-        <Button
-          variant="contained"
-          disabled={loading}
-          onClick={this.onNewUserClick}
+        <Grid
+          container
+          direction="row"
+          justify="flex-end"
+          alignItems="center"
+          wrap="nowrap"
         >
-          {'Criar Usuário'}
-        </Button>
+          <Grid item xs zeroMinWidth>
+            <Typography component="h1" variant="h5" className={classes.title}>
+              {'Empregadores'}
+            </Typography>
+          </Grid>
+          <Fab
+            aria-label="Edit"
+            className={classes.fab}
+            disabled={loading}
+            onClick={this.onNewUserClick}
+            size="small"
+          >
+            <AccountPlus />
+          </Fab>
+        </Grid>
 
-        {users && (
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Email</TableCell>
-                <TableCell>Habilitado</TableCell>
-
-                <TableCell />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map(user => (
-                <TableRow hover tabIndex={-1} key={user.id}>
-                  <TableCell component="th" scope="row">
-                    {user.email}
-                  </TableCell>
-                  <TableCell>{user.enabled ? 'Sim' : 'Não'}</TableCell>
-
-                  <TableCell>
-                    <IconButton
-                      aria-label="Editar"
-                      onClick={() => this.onEditUser(user)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </TableCell>
-                  <TableCell>
-                    {user.enabled && (
-                      <IconButton
-                        aria-label="Desabilitar"
-                        onClick={() => this.onDisableUser(user)}
+        <div>
+          <Grid item xs={12}>
+            {users && (
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      {'Email'}
+                    </TableCell>
+                    <TableCell className={classes.tableCell} />
+                    <TableCell className={classes.tableCell} />
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {users.map(user => (
+                    <TableRow hover tabIndex={-1} key={user.id}>
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        className={!user.enabled ? classes.disabled : null}
                       >
-                        <DeleteIcon />
-                      </IconButton>
-                    )}
+                        {user.email}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        <IconButton
+                          aria-label="Editar"
+                          onClick={() => this.onEdit(user)}
+                          disabled={!user.enabled}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {user.enabled && (
+                          <IconButton
+                            aria-label="Desabilitar"
+                            onClick={() => this.onDisable(user)}
+                            color="secondary"
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        )}
 
-                    {!user.enabled && (
-                      <IconButton
-                        aria-label="Habilitar"
-                        onClick={() => this.onEnableUser(user)}
-                      >
-                        <UndoIcon />
-                      </IconButton>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
+                        {!user.enabled && (
+                          <IconButton
+                            aria-label="Habilitar"
+                            onClick={() => this.onEnable(user)}
+                          >
+                            <UndoIcon />
+                          </IconButton>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </Grid>
+        </div>
       </div>
     );
   }

@@ -10,12 +10,15 @@ import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { push } from 'react-router-redux';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Moment from 'moment';
+import Typography from '@material-ui/core/Typography';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import { loadCompanies } from '../../operators/companiesOperator';
 
 const styles = theme => ({
-  root: {
+  title: {
     flexGrow: 1,
   },
   progress: {
@@ -25,8 +28,8 @@ const styles = theme => ({
     paddingRight: 4,
     paddingLeft: 5,
   },
-  table: {
-    minWidth: 1,
+  fab: {
+    margin: theme.spacing.unit,
   },
 });
 
@@ -59,25 +62,29 @@ class CompaniesList extends Component {
               justify="flex-end"
               alignItems="center"
             >
-              <Button
-                variant="contained"
+              <Typography component="h1" variant="h5" className={classes.title}>
+                {'Empresas'}
+              </Typography>
+              <Fab
+                color="primary"
+                aria-label="Add"
                 disabled={loading}
                 onClick={this.onNewCompanyClick}
+                className={classes.fab}
+                size="small"
               >
-                {'Criar'}
-              </Button>
+                <AddIcon />
+              </Fab>
             </Grid>
             <Grid item xs={12}>
-              <Table className={classes.table}>
+              <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell className={classes.tableCell}>Nome</TableCell>
-                    <TableCell className={classes.tableCell}>cnpj</TableCell>
-                    <TableCell className={classes.tableCell} align="right">
-                      {'Data de Expiração'}
+                    <TableCell className={classes.tableCell} align="left">
+                      {'Nome'}
                     </TableCell>
                     <TableCell className={classes.tableCell} align="right">
-                      {'Usuários'}
+                      {'Expiração'}
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -96,14 +103,10 @@ class CompaniesList extends Component {
                       >
                         {company.name}
                       </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {company.cnpj}
-                      </TableCell>
                       <TableCell className={classes.tableCell} align="right">
-                        {company.expiration}
-                      </TableCell>
-                      <TableCell className={classes.tableCell} align="right">
-                        {company.userCount}
+                        {company.expiration
+                          ? Moment(company.expiration).format('DD/MM/YYYY')
+                          : ''}
                       </TableCell>
                     </TableRow>
                   ))}

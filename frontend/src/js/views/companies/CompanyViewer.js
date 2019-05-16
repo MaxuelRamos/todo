@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { push } from 'react-router-redux';
-import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Fab from '@material-ui/core/Fab';
+import { withStyles } from '@material-ui/core/styles';
+import Icon from '@material-ui/core/Icon';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AccountPlus from '@material-ui/icons/PersonAdd';
 import {
   loadCompany,
   editCompany,
@@ -17,6 +23,15 @@ import {
 } from '../../operators/usersOperator';
 import CompanyUsersList from '../users/CompanyUsersList';
 import userIs from '../../utils/permissionUtils';
+
+const styles = theme => ({
+  title: {
+    flexGrow: 1,
+  },
+  fab: {
+    margin: theme.spacing.unit / 2,
+  },
+});
 
 class CompaniesViewer extends Component {
   componentDidMount() {
@@ -55,45 +70,64 @@ class CompaniesViewer extends Component {
   };
 
   render() {
-    const { selected, loading, errorMessage } = this.props;
+    const {
+      selected, loading, errorMessage, classes,
+    } = this.props;
     return (
       <div>
         {loading && <CircularProgress />}
         {selected && (
           <div>
-            {userIs('ADMIN') && (
-              <Fragment>
-                <Button
-                  variant="contained"
-                  disabled={loading}
-                  onClick={this.onEditCompanyClick}
-                >
-                  {'Editar'}
-                </Button>
-
-                <Button
-                  variant="contained"
-                  disabled={loading}
-                  onClick={this.onDisableCompanyClick}
-                >
-                  {'Desabilitar'}
-                </Button>
-              </Fragment>
-            )}
-
-            <Button
-              variant="contained"
-              disabled={loading}
-              onClick={this.onNewUserClick}
+            <Grid
+              container
+              direction="row"
+              justify="flex-end"
+              alignItems="center"
+              wrap="nowrap"
             >
-              {'Criar Usuário'}
-            </Button>
+              <Grid item xs zeroMinWidth>
+                <Typography
+                  component="h1"
+                  variant="h5"
+                  className={classes.title}
+                >
+                  {selected.name}
+                </Typography>
+              </Grid>
+              <Fab
+                aria-label="Edit"
+                className={classes.fab}
+                disabled={loading}
+                onClick={this.onNewUserClick}
+                size="small"
+              >
+                <AccountPlus />
+              </Fab>
+              {userIs('ADMIN') && (
+                <Fragment>
+                  <Fab
+                    aria-label="Edit"
+                    className={classes.fab}
+                    disabled={loading}
+                    onClick={this.onEditCompanyClick}
+                    size="small"
+                  >
+                    <Icon>edit_icon</Icon>
+                  </Fab>
 
-            <br />
-            <br />
-            {selected.name}
-
-            <br />
+                  <Fab
+                    color="secondary"
+                    aria-label="Delete"
+                    disabled={loading}
+                    onClick={this.onDisableCompanyClick}
+                    className={classes.fab}
+                    size="small"
+                  >
+                    <DeleteIcon />
+                  </Fab>
+                </Fragment>
+              )}
+            </Grid>
 
             <CompanyUsersList
               company={selected}
@@ -111,6 +145,7 @@ class CompaniesViewer extends Component {
 }
 
 CompaniesViewer.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
   params: PropTypes.shape({}).isRequired,
   loading: PropTypes.bool.isRequired,
   loadCompany: PropTypes.func.isRequired,
@@ -146,4 +181,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CompaniesViewer);
+)(withStyles(styles)(CompaniesViewer));

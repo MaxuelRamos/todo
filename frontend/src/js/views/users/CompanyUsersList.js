@@ -12,14 +12,21 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UndoIcon from '@material-ui/icons/Undo';
 import EditIcon from '@material-ui/icons/Edit';
+import Grid from '@material-ui/core/Grid';
 import { loadUsers } from '../../operators/usersOperator';
 
 const styles = theme => ({
-  table: {
-    width: '100%',
-  },
   progress: {
     margin: theme.spacing.unit * 2,
+  },
+  tableCell: {
+    paddingRight: 0,
+    paddingLeft: 0,
+    width: '5%',
+  },
+  disabled: {
+    opacity: 0.5,
+    color: 'red',
   },
 });
 
@@ -35,56 +42,63 @@ class CompanyUsersList extends Component {
     } = this.props;
     return (
       <div>
-        {users && (
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Email</TableCell>
-                <TableCell>Habilitado</TableCell>
-
-                <TableCell />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map(user => (
-                <TableRow hover tabIndex={-1} key={user.id}>
+        <Grid item xs={12}>
+          {users && (
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell component="th" scope="row">
-                    {user.email}
+                    {'Email'}
                   </TableCell>
-                  <TableCell>{user.enabled ? 'Sim' : 'Não'}</TableCell>
-
-                  <TableCell>
-                    <IconButton
-                      aria-label="Editar"
-                      onClick={() => onEdit(user)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </TableCell>
-                  <TableCell>
-                    {user.enabled && (
-                      <IconButton
-                        aria-label="Desabilitar"
-                        onClick={() => onDisable(user)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    )}
-
-                    {!user.enabled && (
-                      <IconButton
-                        aria-label="Habilitar"
-                        onClick={() => onEnable(user)}
-                      >
-                        <UndoIcon />
-                      </IconButton>
-                    )}
-                  </TableCell>
+                  <TableCell className={classes.tableCell} />
+                  <TableCell className={classes.tableCell} />
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
+              </TableHead>
+              <TableBody>
+                {users.map(user => (
+                  <TableRow hover tabIndex={-1} key={user.id}>
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      className={!user.enabled ? classes.disabled : null}
+                    >
+                      {user.email}
+                    </TableCell>
+                    <TableCell className={classes.tableCell}>
+                      <IconButton
+                        aria-label="Editar"
+                        onClick={() => onEdit(user)}
+                        disabled={!user.enabled}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell className={classes.tableCell}>
+                      {user.enabled && (
+                        <IconButton
+                          aria-label="Desabilitar"
+                          onClick={() => onDisable(user)}
+                          color="secondary"
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      )}
+
+                      {!user.enabled && (
+                        <IconButton
+                          aria-label="Habilitar"
+                          onClick={() => onEnable(user)}
+                        >
+                          <UndoIcon />
+                        </IconButton>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </Grid>
       </div>
     );
   }
