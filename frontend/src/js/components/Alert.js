@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 const styles = {
   alert: {
-    minWidth: 150,
     padding: 15,
     marginBottom: 10,
     marginTop: 10,

@@ -2,6 +2,7 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     display: 'flex',
+    wordBreak: 'break-all',
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
