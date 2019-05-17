@@ -6,6 +6,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { push } from 'react-router-redux';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Alert from '../../components/Alert';
 import { loadCompanies } from '../../operators/companiesOperator';
 import {
   editUser,
@@ -13,6 +17,14 @@ import {
   updateUser,
 } from '../../operators/usersOperator';
 import userIs from '../../utils/permissionUtils';
+
+const styles = {
+  buttonArea: {
+    paddingTop: 30,
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+};
 
 class UserForm extends Component {
   constructor(props) {
@@ -73,8 +85,6 @@ class UserForm extends Component {
 
   isNew = () => {
     const { user } = this.state;
-    console.log(user.id);
-    console.log(!user.id);
     return !user.id;
   };
 
@@ -99,105 +109,90 @@ class UserForm extends Component {
 
   render() {
     const {
-      loading, errorMessage, companies,
+      loading, errorMessage, companies, classes,
     } = this.props;
     const { user } = this.state;
     return (
       <div>
+        <Alert text={errorMessage} type="danger" />
         {loading && <CircularProgress />}
-        {user && (
-          <form onSubmit={this.handleSubmit}>
-            <TextField
-              label="Email"
-              margin="normal"
-              variant="outlined"
-              placeholder="Informe o email..."
-              type="email"
-              name="email"
-              value={user.email}
-              onChange={this.handleChange}
-              required
-            />
+        {!loading && user && (
+          <React.Fragment>
+            <Typography variant="h6" gutterBottom>
+              {'Formulário de Usuário'}
+            </Typography>
+            <form onSubmit={this.handleSubmit}>
+              <Grid container spacing={24}>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Email"
+                    margin="normal"
+                    placeholder="Informe o email..."
+                    type="email"
+                    name="email"
+                    value={user.email}
+                    onChange={this.handleChange}
+                    required
+                    fullWidth
+                  />
+                </Grid>
 
-            <br />
+                {user.role !== 'ADMIN' && userIs('ADMIN') && (
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      select
+                      label="Empresa"
+                      name="companyId"
+                      value={user.companyId}
+                      onChange={this.handleChange}
+                      SelectProps={{
+                        native: true,
+                      }}
+                      margin="normal"
+                      fullWidth
+                    >
+                      {companies.map(company => (
+                        <option key={company.id} value={company.id}>
+                          {company.name}
+                        </option>
+                      ))}
+                    </TextField>
+                  </Grid>
+                )}
+              </Grid>
 
-            {userIs('ADMIN') && (
-              <TextField
-                select
-                label="Empresa"
-                name="companyId"
-                value={user.companyId}
-                onChange={this.handleChange}
-                SelectProps={{
-                  native: true,
-                }}
-                helperText="Por favor, informe a empresa"
-                margin="normal"
-                variant="outlined"
-              >
-                {companies.map(company => (
-                  <option key={company.id} value={company.id}>
-                    {company.name}
-                  </option>
-                ))}
-              </TextField>
-            )}
+              {userIs('ADMIN') && this.isNew() && (
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    select
+                    label="Perfil"
+                    name="role"
+                    value={user.role}
+                    onChange={this.handleChange}
+                    SelectProps={{
+                      native: true,
+                    }}
+                    margin="normal"
+                    fullWidth
+                  >
+                    <option value="USER">Usuário comum</option>
+                    <option value="EMPLOYER">Empregador</option>
+                  </TextField>
+                </Grid>
+              )}
 
-            <br />
-
-            {userIs('ADMIN') && this.isNew() && (
-              <TextField
-                select
-                label="Perfil"
-                name="role"
-                value={user.role}
-                onChange={this.handleChange}
-                SelectProps={{
-                  native: true,
-                }}
-                helperText="Por favor, informe o perfil de usuário"
-                margin="normal"
-                variant="outlined"
-              >
-                <option value="USER">Usuário comum</option>
-                <option value="EMPLOYER">Empregador</option>
-              </TextField>
-            )}
-            <br />
-
-            {/* {user.id === authenticatedUser.id && (
-              <div>
-                <TextField
-                  label="Senha"
-                  margin="normal"
-                  variant="outlined"
-                  type="password"
-                  placeholder="Informe sua senha..."
-                  name="password"
-                  value={user.password}
-                  onChange={this.handleChange}
-                />
-                <br />
-                <TextField
-                  label="Confirmação de Senha"
-                  margin="normal"
-                  variant="outlined"
-                  type="password"
-                  placeholder="Informe sua senha novamente..."
-                  name="passwordConfirm"
-                  value={user.passwordConfirm}
-                  onChange={this.handleChange}
-                />
-                <br />
+              <div className={classes.buttonArea}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {'Salvar'}
+                </Button>
               </div>
-            )} */}
-
-            <Button variant="contained" type="submit" disabled={loading}>
-              {'Salvar'}
-            </Button>
-            <br />
-            {errorMessage}
-          </form>
+            </form>
+          </React.Fragment>
         )}
       </div>
     );
@@ -205,6 +200,7 @@ class UserForm extends Component {
 }
 
 UserForm.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
   authenticatedUser: PropTypes.shape({}),
   companies: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   params: PropTypes.shape({}).isRequired,
@@ -221,11 +217,11 @@ UserForm.propTypes = {
 
 const mapStateToProps = state => ({
   authenticatedUser: state.auth.authenticatedUser,
-  loading: state.companies.loading,
+  loading: state.users.loading,
   company: state.companies.selected,
   companies: state.companies.companies,
   selected: state.users.selected,
-  errorMessage: state.companies.errorMessage,
+  errorMessage: state.users.errorMessage,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -242,4 +238,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(UserForm);
+)(withStyles(styles)(UserForm));

@@ -21,6 +21,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import styles from '../styles/NavigatorStyle';
 import { logout, loadAuthenticatedUser } from '../operators/authOperator';
 import { editUser } from '../operators/usersOperator';
@@ -95,7 +96,7 @@ class Navigator extends Component {
                 <ListItemIcon>
                   <People />
                 </ListItemIcon>
-                <ListItemText primary="Usuários" />
+                <ListItemText primary="Empregadores" />
               </ListItem>
             </Fragment>
           )}
@@ -191,7 +192,7 @@ class Navigator extends Component {
             </nav>
             <main className={classes.content}>
               <div className={classes.toolbar} />
-              {children}
+              {children && <Paper className={classes.paper}>{children}</Paper>}
             </main>
           </div>
         )}

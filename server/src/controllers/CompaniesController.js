@@ -26,7 +26,6 @@ module.exports = {
     if (req.user.role === 'EMPLOYER') {
       if (req.user.companyId !== Number(req.params.id)) {
         res.status(403).json({ message: 'Forbidden' });
-        return;
       }
     }
 

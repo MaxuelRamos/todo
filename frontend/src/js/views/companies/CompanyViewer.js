@@ -11,6 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Icon from '@material-ui/core/Icon';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AccountPlus from '@material-ui/icons/PersonAdd';
+import Alert from '../../components/Alert';
 import {
   loadCompany,
   editCompany,
@@ -71,10 +72,16 @@ class CompaniesViewer extends Component {
 
   render() {
     const {
-      selected, loading, errorMessage, classes,
+      selected,
+      loading,
+      errorMessage,
+      usersErrorMessage,
+      classes,
     } = this.props;
     return (
       <div>
+        <Alert text={errorMessage} type="danger" />
+        <Alert text={usersErrorMessage} type="danger" />
         {loading && <CircularProgress />}
         {selected && (
           <div>
@@ -135,8 +142,6 @@ class CompaniesViewer extends Component {
               onEnable={this.onEnableUser}
               onEdit={this.onEditUser}
             />
-
-            {errorMessage}
           </div>
         )}
       </div>
@@ -156,6 +161,7 @@ CompaniesViewer.propTypes = {
   disableUser: PropTypes.func.isRequired,
   enableUser: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
+  usersErrorMessage: PropTypes.string,
   push: PropTypes.func.isRequired,
 };
 
@@ -163,6 +169,7 @@ const mapStateToProps = store => ({
   loading: store.companies.loading,
   selected: store.companies.selected,
   errorMessage: store.companies.errorMessage,
+  usersErrorMessage: store.users.errorMessage,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(

@@ -15,7 +15,7 @@ export function loadCompanies() {
         dispatch(CompanyActions.loadCompaniesSuccess(json));
       })
       .catch((error) => {
-        dispatch(CompanyActions.companyFailure(error));
+        dispatch(CompanyActions.companyFailure(error.message));
       });
   };
 }
@@ -29,7 +29,7 @@ export function loadCompany(id) {
         dispatch(CompanyActions.loadCompanySuccess(json));
       })
       .catch((error) => {
-        dispatch(CompanyActions.companyFailure(error));
+        dispatch(CompanyActions.companyFailure(error.message));
       });
   };
 }
@@ -43,7 +43,7 @@ export function editCompany(id) {
         dispatch(push(`/companies/edit/${id}`));
       })
       .catch((error) => {
-        dispatch(CompanyActions.companyFailure(error));
+        dispatch(CompanyActions.companyFailure(error.message));
       });
   };
 }

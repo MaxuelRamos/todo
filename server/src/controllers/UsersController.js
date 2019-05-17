@@ -42,7 +42,6 @@ module.exports = {
 
     if (req.user.role === 'USER' && Number(req.params.id) !== req.user.id) {
       res.status(403).send();
-      return;
     }
     if (req.user.role === 'EMPLOYER') {
       where.companyId = req.user.companyId;
@@ -65,11 +64,9 @@ module.exports = {
 
     if (req.user.role === 'USER' && Number(req.params.id) !== req.user.id) {
       res.status(403).send();
-      return;
     }
     if (req.user.role === 'EMPLOYER' && companyId !== req.user.id) {
       res.status(403).send();
-      return;
     }
 
     const newUser = { email, companyId, password: defaultPassword };
@@ -79,7 +76,6 @@ module.exports = {
       newUser.companyId = companyId;
     } else if (req.user.companyId !== companyId) {
       res.status(403).send();
-      return;
     }
 
     User.create(newUser)

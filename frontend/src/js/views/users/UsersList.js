@@ -17,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import AccountPlus from '@material-ui/icons/PersonAdd';
 import { push } from 'react-router-redux';
+import Alert from '../../components/Alert';
 import {
   disableUser,
   enableUser,
@@ -66,9 +67,12 @@ class UsersList extends Component {
   };
 
   render() {
-    const { users, classes, loading } = this.props;
+    const {
+      users, classes, loading, errorMessage,
+    } = this.props;
     return (
       <div>
+        <Alert text={errorMessage} type="danger" />
         <Grid
           container
           direction="row"
@@ -157,6 +161,7 @@ class UsersList extends Component {
 }
 
 UsersList.propTypes = {
+  errorMessage: PropTypes.string,
   classes: PropTypes.shape({}).isRequired,
   disableUser: PropTypes.func.isRequired,
   editUser: PropTypes.func.isRequired,
@@ -168,7 +173,8 @@ UsersList.propTypes = {
 };
 
 const mapStateToProps = store => ({
-  loading: store.companies.loading,
+  errorMessage: store.users.errorMessage,
+  loading: store.users.loading,
   users: store.users.users,
 });
 const mapDispatchToProps = dispatch => bindActionCreators(

@@ -13,7 +13,7 @@ export function loadUsers(company) {
         dispatch(UserActions.loadUsersSuccess(json));
       })
       .catch((error) => {
-        dispatch(UserActions.userFailure(error));
+        dispatch(UserActions.userFailure(error.message));
       });
   };
 }
@@ -27,7 +27,7 @@ export function loadEmployers() {
         dispatch(UserActions.loadUsersSuccess(json));
       })
       .catch((error) => {
-        dispatch(UserActions.userFailure(error));
+        dispatch(UserActions.userFailure(error.message));
       });
   };
 }
@@ -41,7 +41,7 @@ export function loadUser(id) {
         dispatch(UserActions.loadUserSuccess(json));
       })
       .catch((error) => {
-        dispatch(UserActions.userFailure(error));
+        dispatch(UserActions.userFailure(error.message));
       });
   };
 }
@@ -55,7 +55,7 @@ export function editUser(id) {
         dispatch(push(`/users/edit/${id}`));
       })
       .catch((error) => {
-        dispatch(UserActions.userFailure(error));
+        dispatch(UserActions.userFailure(error.message));
       });
   };
 }

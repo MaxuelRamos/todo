@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { loadCompanies } from '../../operators/companiesOperator';
+import Alert from '../../components/Alert';
 
 const styles = theme => ({
   title: {
@@ -50,9 +51,13 @@ class CompaniesList extends Component {
   };
 
   render() {
-    const { classes, companies, loading } = this.props;
+    const {
+      classes, companies, loading, errorMessage,
+    } = this.props;
+    console.log(errorMessage);
     return (
       <div>
+        <Alert text={errorMessage} type="danger" />
         {loading && <CircularProgress className={classes.progress} />}
         {!loading && (
           <div>
@@ -115,51 +120,13 @@ class CompaniesList extends Component {
             </Grid>
           </div>
         )}
-        {
-          //   {!loading && (
-          //   // <div>
-          //   //
-          //     <Grid>
-          //       <Grid item xs={12}>
-          //         <Table>
-          //           <TableHead>
-          //             <TableRow>
-          //               <TableCell>Nome</TableCell>
-          //               <TableCell>cnpj</TableCell>
-          //               <TableCell align="right">Data de Expiração</TableCell>
-          //               <TableCell align="right">Usuários</TableCell>
-          //             </TableRow>
-          //           </TableHead>
-          //           <TableBody>
-          //             {companies.map(company => (
-          //               <TableRow
-          //                 hover
-          //                 onClick={event => this.onCompanyClick(event, company)}
-          //                 tabIndex={-1}
-          //                 key={company.id}
-          //               >
-          //                 <TableCell component="th" scope="row">
-          //                   {company.name}
-          //                 </TableCell>
-          //                 <TableCell>{company.cnpj}</TableCell>
-          //                 <TableCell align="right">{company.expiration}</TableCell>
-          //                 <TableCell align="right">{company.userCount}</TableCell>
-          //               </TableRow>
-          //             ))}
-          //           </TableBody>
-          //         </Table>
-          //       </Grid>
-          //     </Grid>
-          //     // </div>
-          //   )}
-          // </Grid>
-        }
       </div>
     );
   }
 }
 
 const mapStateToProps = store => ({
+  errorMessage: store.companies.errorMessage,
   companies: store.companies.companies,
   loading: store.companies.loading,
 });
@@ -173,6 +140,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 );
 
 CompaniesList.propTypes = {
+  errorMessage: PropTypes.string,
   classes: PropTypes.shape({}).isRequired,
   loading: PropTypes.bool.isRequired,
   companies: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
