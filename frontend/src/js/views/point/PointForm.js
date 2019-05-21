@@ -7,8 +7,15 @@ import Button from '@material-ui/core/Button';
 import Camera from 'react-html5-camera-photo';
 import GoogleMapReact from 'google-map-react';
 import Grid from '@material-ui/core/Grid';
-import registerPoint from '../../operators/pointsOperator';
 import 'react-html5-camera-photo/build/css/index.css';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import { push } from 'react-router-redux';
+import Fab from '@material-ui/core/Fab';
+import ReplayPoint from '@material-ui/icons/Replay';
+import Typography from '@material-ui/core/Typography';
+import registerPoint from '../../operators/pointsOperator';
+import Alert from '../../components/Alert';
 
 const K_WIDTH = 25;
 const K_HEIGHT = 25;
@@ -99,16 +106,31 @@ class CompanyForm extends Component {
     this.setState({ point });
   };
 
+  onCancelPhoto = () => {
+    const { push } = this.props;
+    push('/me');
+  };
+
   render() {
     const { loading, errorMessage } = this.props;
     const { point } = this.state;
 
-    const center = [point.lat, point.long];
-    return (
-      <Grid item xs={12}>
-        {loading && <CircularProgress />}
+    // const center = [point.lat, point.long];
 
-        <form onSubmit={this.handleSubmit}>
+    console.log('aaaaaaa', point.lat);
+    return (
+      <React.Fragment>
+        <Grid container spacing={8}>
+          <Grid item xs={12}>
+            <Alert text={errorMessage} type="danger" />
+          </Grid>
+
+          {loading && (
+            <Grid item>
+              <CircularProgress />
+            </Grid>
+          )}
+
           {!point.dataUri && (
             <div
               style={{
@@ -123,6 +145,22 @@ class CompanyForm extends Component {
                 backgroundSize: 'cover',
               }}
             >
+              <IconButton
+                aria-label="Add"
+                disabled={loading}
+                onClick={this.onCancelPhoto}
+                style={{
+                  zIndex: 9001,
+                  position: 'fixed',
+                }}
+              >
+                <CloseIcon
+                  style={{
+                    color: 'white',
+                    fontSize: 40,
+                  }}
+                />
+              </IconButton>
               <Camera
                 style={{ height: '100vh' }}
                 idealResolution={{ width: 75, height: 100 }}
@@ -134,47 +172,54 @@ class CompanyForm extends Component {
           )}
 
           {point.dataUri && (
-            <div>
-              <img src={point.dataUri} alt="Foto" />
+            <Grid item xs={12}>
+              <img
+                src={point.dataUri}
+                alt="Foto"
+                style={{
+                  width: '60%',
+                  display: 'block',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  maxHeight: 400,
+                  maxWidth: 300,
+                }}
+              />
+            </Grid>
+          )}
+        </Grid>
+
+        {point.dataUri && (
+          <Grid
+            container
+            direction="row"
+            justify="flex-end"
+            alignItems="center"
+            spacing={8}
+          >
+            <Grid item>
               <Button
                 variant="contained"
-                type="button"
+                color="primary"
                 disabled={loading}
                 onClick={this.resetPhoto}
               >
-                {'Tirar outra'}
+                {'Tirar outra foto'}
               </Button>
-
-              {point.lat && (
-                <div style={{ height: 200, width: 200 }}>
-                  <GoogleMapReact
-                    bootstrapURLKeys={{
-                      key: 'AIzaSyBHOri2pRdI5cwDTgC8n2tFWms90Ddxgyg',
-                    }}
-                    center={center}
-                    defaultZoom={15}
-                  >
-                    <MyGreatPlace
-                      lat={point.lat}
-                      lng={point.long}
-                      text="A" /* Kreyser Avrora */
-                    />
-                  </GoogleMapReact>
-                </div>
-              )}
+            </Grid>
+            <Grid item>
               <Button
                 variant="contained"
-                type="submit"
-                disabled={loading || !point.dataUri || !point.lat}
+                color="primary"
+                disabled={loading || !point.lat}
+                onClick={this.handleSubmit}
               >
                 {'Salvar'}
               </Button>
-              <br />
-              {errorMessage}
-            </div>
-          )}
-        </form>
-      </Grid>
+            </Grid>
+          </Grid>
+        )}
+      </React.Fragment>
     );
   }
 }
@@ -184,6 +229,7 @@ CompanyForm.propTypes = {
   loading: PropTypes.bool.isRequired,
   registerPoint: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
+  push: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -194,6 +240,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     registerPoint,
+    push,
   },
   dispatch,
 );
@@ -202,3 +249,33 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(CompanyForm);
+
+{
+  /* {point.lat && (
+                    <Grid item xs={12}>
+                      <div
+                        style={{
+                          height: 200,
+                          width: 200,
+                          display: 'block',
+                          marginLeft: 'auto',
+                          marginRight: 'auto',
+                        }}
+                      >
+                        <GoogleMapReact
+                          bootstrapURLKeys={{
+                            key: 'AIzaSyBHOri2pRdI5cwDTgC8n2tFWms90Ddxgyg',
+                          }}
+                          center={center}
+                          defaultZoom={15}
+                        >
+                          <MyGreatPlace
+                            lat={point.lat}
+                            lng={point.long}
+                            text="A"
+                          />
+                        </GoogleMapReact>
+                      </div>
+                    </Grid>
+                  )} */
+}

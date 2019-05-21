@@ -30,12 +30,14 @@ const jwtMiddleware = (req, res, next) => {
         })
         .catch(error => res.status(500).send(error));
     });
-  } else {
+  } else if (req.path.startsWith('/api')) {
     // if there is no token
     // return an error
     return res.status(403).send({
       message: 'No token provided.',
     });
+  } else {
+    next();
   }
 };
 

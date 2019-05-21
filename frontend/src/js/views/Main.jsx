@@ -113,6 +113,15 @@ class Navigator extends Component {
               <ListItemText primary="Empresa" />
             </ListItem>
           )}
+
+          {userIs('USER') && (
+            <ListItem button onClick={() => this.goTo('/me')}>
+              <ListItemIcon>
+                <Home />
+              </ListItemIcon>
+              <ListItemText primary="Início" />
+            </ListItem>
+          )}
         </List>
       </div>
     );

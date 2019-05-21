@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
 import { push } from 'react-router-redux';
+import Grid from '@material-ui/core/Grid';
+import Fab from '@material-ui/core/Fab';
+import ControlPoint from '@material-ui/icons/ControlPoint';
 import { editUser } from '../../operators/usersOperator';
 import userIs from '../../utils/permissionUtils';
 
@@ -21,24 +23,31 @@ class Me extends Component {
   render() {
     const { loading } = this.props;
     return (
-      <div>
+      <Grid
+        container
+        direction="row"
+        justify="flex-end"
+        alignItems="flex-end"
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
         {userIs('USER') && (
-          <Button
-            variant="contained"
-            disabled={loading}
-            onClick={this.onRegisterPointClick}
-          >
-            {'Bater ponto'}
-          </Button>
+          <div style={{ justifyContent: 'flex-end' }}>
+            <Fab
+              variant="extended"
+              aria-label="Add"
+              disabled={loading}
+              onClick={this.onRegisterPointClick}
+              color="primary"
+            >
+              <ControlPoint />
+              {'Bater Ponto'}
+            </Fab>
+          </div>
         )}
-        <Button
-          variant="contained"
-          disabled={loading}
-          onClick={this.onEditClick}
-        >
-          {'Editar'}
-        </Button>
-      </div>
+      </Grid>
     );
   }
 }

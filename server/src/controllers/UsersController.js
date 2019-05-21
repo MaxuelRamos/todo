@@ -64,9 +64,11 @@ module.exports = {
 
     if (req.user.role === 'USER' && Number(req.params.id) !== req.user.id) {
       res.status(403).send();
+      return;
     }
-    if (req.user.role === 'EMPLOYER' && companyId !== req.user.id) {
+    if (req.user.role === 'EMPLOYER' && companyId !== req.user.companyId) {
       res.status(403).send();
+      return;
     }
 
     const newUser = { email, companyId, password: defaultPassword };

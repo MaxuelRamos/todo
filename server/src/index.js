@@ -5,14 +5,10 @@ const morgan = require('morgan');
 const https = require('https');
 const fs = require('fs');
 
-// const config = require('./config'); // get our config file
-
 const app = express();
-const port = process.env.PORT || 443;
-const host = '0.0.0.0';
 
-const key = fs.readFileSync(`${__dirname}/../certs/selfsigned.key`);
-const cert = fs.readFileSync(`${__dirname}/../certs/selfsigned.crt`);
+const key = fs.readFileSync(`${__dirname}/certs/selfsigned.key`);
+const cert = fs.readFileSync(`${__dirname}/certs/selfsigned.crt`);
 
 const options = {
   key,
@@ -27,22 +23,16 @@ app.use(bodyParser.json());
 if (process.env.NODE_ENV === 'dev ') {
   app.use(morgan('dev'));
 }
+// Serve any static files
+app.use(express.static(path.join(__dirname, '../../frontend/build')));
+app.use(require('./routes'));
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
 });
 
-// Serve any static files
-app.use(express.static(path.join(__dirname, '../../frontend/build')));
-
-app.use(require('./routes'));
-// Handle React routing, return all requests to React app
-
-app.listen(5000, host, () => console.log(`Listening on port ${5000}!!!!!`));
+https
+  .createServer(options, app)
+  .listen(5000, () => console.log(`Listening on port ${5000}!!!!!`));
 
 module.exports = app;
-
-// const server = https.createServer(options, app);
-// server.listen(port, () => {
-//   console.log(`server starting on port : ${port}`);
-// });
