@@ -17,6 +17,7 @@
     "max-len": ["error", 200],
     "react/require-default-props": false,
     "react/jsx-filename-extension": "off",
-    "react/sort-comp": "off"
+    "react/sort-comp": "off",
+    "no-plusplus": "off"
   }
 }

@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../db/db.js');
+const User = require('./User');
 
 const Point = sequelize.define(
   'point',
@@ -23,14 +24,21 @@ const Point = sequelize.define(
       notNull: true,
       max: 50,
     },
+    enabled: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    },
+    comment: {
+      type: Sequelize.STRING,
+      notNull: false,
+      max: 200,
+    },
   },
   {
     schema: 'ponto',
   },
 );
-
-if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test') {
-  Point.sync();
-}
+Point.belongsTo(User);
 
 module.exports = Point;

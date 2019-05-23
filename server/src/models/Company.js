@@ -1,8 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../db/db.js');
 
-const User = require('./User');
-
 const Company = sequelize.define(
   'company',
   {
@@ -46,10 +44,6 @@ const Company = sequelize.define(
   { schema: 'ponto' },
 );
 
-Company.hasMany(User);
-User.belongsTo(Company);
-
-Company.sync();
-User.sync();
+// Company.hasMany(User);
 
 module.exports = Company;

@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
-const Point = require('../models/Point');
 const Company = require('../models/Company');
 
 const defaultPassword = bcrypt.hashSync('123456', 10);

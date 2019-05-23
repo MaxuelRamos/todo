@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../db/db.js');
 
-const Point = require('../models/Point');
+const Company = require('./Company');
 
 const User = sequelize.define(
   'user',
@@ -37,12 +37,6 @@ const User = sequelize.define(
   },
 );
 
-User.hasMany(Point);
-Point.belongsTo(User);
-
-if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test') {
-  User.sync();
-  Point.sync();
-}
+User.belongsTo(Company);
 
 module.exports = User;

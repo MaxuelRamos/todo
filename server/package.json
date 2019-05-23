@@ -6,7 +6,8 @@
   "scripts": {
     "test": "SET NODE_ENV=test && mocha",
     "dev": "SET NODE_ENV=dev && concurrently --kill-others-on-fail \"nodemon --inspect src/index.js\" \"cd ..\\frontend\\ && yarn start\"",
-    "migrate": "node ./src/db/callMigrations.js"
+    "migrate": "node ./src/db/callMigrations.js",
+    "clean": "node ./src/db/clean.js"
   },
   "dependencies": {
     "async": "^2.6.2",

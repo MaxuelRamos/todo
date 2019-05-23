@@ -5,9 +5,9 @@ const routes = express.Router();
 const jwtMiddleware = require('./middlewares/jwtMiddleware');
 const is = require('./middlewares/roleMiddleware');
 
-const authController = require('./controllers/AuthController');
 const companiesController = require('./controllers/CompaniesController');
 const usersController = require('./controllers/UsersController');
+const authController = require('./controllers/AuthController');
 const pointsController = require('./controllers/PointsController');
 
 /** Authentication */
