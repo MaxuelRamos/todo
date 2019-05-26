@@ -56,7 +56,7 @@ const PointsList = (props) => {
             </TableCell>
             <TableCell component="th" scope="row">
               <Typography className={!point.enabled ? classes.disabled : ''}>
-                {moment(point.timestamp).format('hh:mm')}
+                {moment(point.timestamp).format('HH:mm')}
               </Typography>
             </TableCell>
             <TableCell align="right">

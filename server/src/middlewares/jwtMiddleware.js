@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const config = require('../config');
 const User = require('../models/User');
 
 const jwtMiddleware = (req, res, next) => {
@@ -9,7 +8,7 @@ const jwtMiddleware = (req, res, next) => {
   // decode token
   if (token) {
     // verifies secret and checks exp
-    jwt.verify(token, config.secret, (err, decoded) => {
+    jwt.verify(token, process.env.SECRET, (err, decoded) => {
       if (err) {
         return res
           .status(500)

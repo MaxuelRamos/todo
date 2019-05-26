@@ -88,7 +88,7 @@ ALTER SEQUENCE ponto.points_id_seq
 CREATE TABLE ponto.points
 (
     id integer NOT NULL DEFAULT nextval('ponto.points_id_seq'::regclass),
-    "timestamp" timestamp with time zone,
+    "timestamp" timestamp with time zone default now(),
     lat character varying(255) COLLATE pg_catalog."default",
     "long" character varying(255) COLLATE pg_catalog."default",
     "imgPath" character varying(255) COLLATE pg_catalog."default",

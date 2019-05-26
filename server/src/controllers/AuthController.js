@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
-const config = require('../config');
 
 const onError = (error, res) => {
-  console.log(error);
+  console.error(error);
   res.status(500).send({ message: 'Ocorreu um erro durante a operação' });
 };
 
@@ -44,7 +43,7 @@ module.exports = {
           const payload = {
             id: user.id,
           };
-          const token = jwt.sign(payload, config.secret);
+          const token = jwt.sign(payload, process.env.SECRET);
 
           // return the information including token as JSON
           res.json({

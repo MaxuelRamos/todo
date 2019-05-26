@@ -73,8 +73,6 @@ class CompanyForm extends Component {
         ...point,
       },
     });
-
-    console.log(this.state);
   };
 
   handleChange = (e) => {
@@ -101,7 +99,6 @@ class CompanyForm extends Component {
   onTakePhoto = (dataUri) => {
     // Do stuff with the dataUri photo...
     const { point } = this.state;
-    console.log(dataUri.length);
     point.dataUri = dataUri;
     this.setState({ point });
   };
@@ -117,7 +114,6 @@ class CompanyForm extends Component {
 
     // const center = [point.lat, point.long];
 
-    console.log('aaaaaaa', point.lat);
     return (
       <React.Fragment>
         <Grid container spacing={8}>

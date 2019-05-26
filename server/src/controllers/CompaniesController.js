@@ -2,7 +2,7 @@ const Company = require('../models/Company');
 const User = require('../models/User');
 
 const onError = (error, res) => {
-  console.log(error);
+  console.error(error);
   res.status(500).send({ message: 'Ocorreu um erro durante a operação' });
 };
 

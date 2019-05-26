@@ -1,7 +1,15 @@
 const Sequelize = require('sequelize');
-const env = require('../config/index');
 
-const sequelize = new Sequelize(env.db, { logging: false });
+const sequelize = new Sequelize(
+  `${process.env.DATABASE_URL}/${process.env.DATABASE_NAME}`,
+  {
+    logging: true,
+    dialectOptions: {
+      useUTC: false, // for reading from database
+    },
+    timezone: '-03:00', // for writing to database
+  },
+);
 
 sequelize
   .authenticate()

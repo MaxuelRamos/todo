@@ -1,0 +1,91 @@
+2019-05-24T00:45:37.752Z - info: Initializing jsreport@2.4.0 in dev  mode using configuration file: none
+2019-05-24T00:45:37.753Z - info: Searching for available extensions in C:\ws\todo\server\
+2019-05-24T00:45:37.765Z - info: Extensions location cache contains up to date information, skipping crawling in C:\ws\todo\server\
+2019-05-24T00:45:37.773Z - info: Found 31 extensions
+2019-05-24T00:45:37.803Z - debug: Writing extension locations cache to C:\Users\lubio\AppData\Local\Temp\jsreport\core\locations.json
+2019-05-24T00:45:37.805Z - debug: Discovered 31 extensions
+2019-05-24T00:45:37.851Z - info: Setting process based strategy for rendering. Please visit http://jsreport.net/learn/configuration for information how to get more performance.
+2019-05-24T00:45:37.856Z - info: Using extension authentication
+2019-05-24T00:45:37.918Z - debug: Extension authentication was disabled
+2019-05-24T00:45:37.919Z - info: Using extension cli
+2019-05-24T00:45:37.922Z - info: Using extension debug
+2019-05-24T00:45:37.928Z - info: Using extension express
+2019-05-24T00:45:37.987Z - info: Using extension freeze
+2019-05-24T00:45:37.988Z - info: Using extension handlebars
+2019-05-24T00:45:37.991Z - info: Using extension import-export
+2019-05-24T00:45:38.167Z - info: Using extension jsrender
+2019-05-24T00:45:38.168Z - info: Using extension tags
+2019-05-24T00:45:38.170Z - info: Using extension templates
+2019-05-24T00:45:38.173Z - info: Using extension authorization
+2019-05-24T00:45:38.178Z - debug: Extension authorization was disabled
+2019-05-24T00:45:38.178Z - info: Using extension base
+2019-05-24T00:45:38.180Z - info: Using extension browser-client
+2019-05-24T00:45:38.184Z - info: Using extension child-templates
+2019-05-24T00:45:38.191Z - info: Using extension chrome-pdf
+2019-05-24T00:45:38.282Z - debug: Chrome strategy is dedicated-process
+2019-05-24T00:45:38.282Z - info: Using extension data
+2019-05-24T00:45:38.283Z - info: Using extension fs-store
+2019-05-24T00:45:38.567Z - debug: Extension fs-store was disabled
+2019-05-24T00:45:38.567Z - info: Using extension licensing
+2019-05-24T00:45:38.570Z - info: Using extension pdf-utils
+2019-05-24T00:45:38.660Z - info: Using extension reports
+2019-05-24T00:45:38.664Z - info: Using extension studio
+2019-05-24T00:45:38.679Z - debug: studio request logs are enabled (flush interval: 2000)
+2019-05-24T00:45:38.679Z - info: Using extension text
+2019-05-24T00:45:38.681Z - info: Using extension version-control
+2019-05-24T00:45:38.786Z - info: Using extension assets
+2019-05-24T00:45:38.800Z - info: Using extension html-to-xlsx
+2019-05-24T00:45:38.923Z - info: html-to-xlsx detected chrome as available html engine
+2019-05-24T00:45:38.924Z - info: Using extension scheduling
+2019-05-24T00:45:38.957Z - info: Using extension scripts
+2019-05-24T00:45:38.962Z - info: Using extension xlsx
+2019-05-24T00:45:39.076Z - info: Using extension public-templates
+2019-05-24T00:45:39.078Z - debug: Extension public-templates was disabled
+2019-05-24T00:45:39.078Z - info: Using extension resources
+2019-05-24T00:45:39.080Z - info: Using extension sample-template
+2019-05-24T00:45:39.082Z - debug: Creating samples is disabled
+2019-05-24T00:45:39.133Z - info: Creating default express app.
+2019-05-24T00:45:39.170Z - info: jsreport server successfully started on http port: 5488
+2019-05-24T00:45:39.172Z - info: Verifying license key free
+2019-05-24T00:45:39.175Z - info: Using free license
+2019-05-24T00:45:39.180Z - info: reporter initialized
+2019-05-24T00:45:54.205Z - info: Starting rendering request 1 (user: null)
+2019-05-24T00:45:54.206Z - info: Rendering anonymous template { recipe: html, engine: undefined }
+2019-05-24T00:45:54.207Z - debug: Inline data specified.
+2019-05-24T00:45:54.207Z - debug: Resources not defined for this template.
+2019-05-24T00:45:54.209Z - debug: Base url not specified, skipping its injection.
+2019-05-24T00:45:54.213Z - warn: Error when processing render request Engine must be specified Error: Engine must be specified
+    at module.exports (C:\ws\todo\server\node_modules\jsreport-core\lib\util\createError.js:11:13)
+    at Reporter.createError (C:\ws\todo\server\node_modules\jsreport-core\lib\reporter.js:265:12)
+    at invokeRender (C:\ws\todo\server\node_modules\jsreport-core\lib\render\render.js:30:20)
+    at module.exports (C:\ws\todo\server\node_modules\jsreport-core\lib\render\render.js:133:11)
+2019-05-24T00:52:54.270Z - info: Starting rendering request 2 (user: null)
+2019-05-24T00:52:54.270Z - info: Rendering anonymous template { recipe: html, engine: undefined }
+2019-05-24T00:52:54.271Z - debug: Inline data specified.
+2019-05-24T00:52:54.271Z - debug: Resources not defined for this template.
+2019-05-24T00:52:54.271Z - debug: Base url not specified, skipping its injection.
+2019-05-24T00:52:54.274Z - warn: Error when processing render request Engine must be specified Error: Engine must be specified
+    at module.exports (C:\ws\todo\server\node_modules\jsreport-core\lib\util\createError.js:11:13)
+    at Reporter.createError (C:\ws\todo\server\node_modules\jsreport-core\lib\reporter.js:265:12)
+    at invokeRender (C:\ws\todo\server\node_modules\jsreport-core\lib\render\render.js:30:20)
+    at module.exports (C:\ws\todo\server\node_modules\jsreport-core\lib\render\render.js:133:11)
+2019-05-24T01:04:54.309Z - info: Starting rendering request 3 (user: null)
+2019-05-24T01:04:54.309Z - info: Rendering anonymous template { recipe: html, engine: undefined }
+2019-05-24T01:04:54.310Z - debug: Inline data specified.
+2019-05-24T01:04:54.310Z - debug: Resources not defined for this template.
+2019-05-24T01:04:54.310Z - debug: Base url not specified, skipping its injection.
+2019-05-24T01:04:54.312Z - warn: Error when processing render request Engine must be specified Error: Engine must be specified
+    at module.exports (C:\ws\todo\server\node_modules\jsreport-core\lib\util\createError.js:11:13)
+    at Reporter.createError (C:\ws\todo\server\node_modules\jsreport-core\lib\reporter.js:265:12)
+    at invokeRender (C:\ws\todo\server\node_modules\jsreport-core\lib\render\render.js:30:20)
+    at module.exports (C:\ws\todo\server\node_modules\jsreport-core\lib\render\render.js:133:11)
+2019-05-24T01:36:54.330Z - info: Starting rendering request 4 (user: null)
+2019-05-24T01:36:54.330Z - info: Rendering anonymous template { recipe: html, engine: undefined }
+2019-05-24T01:36:54.330Z - debug: Inline data specified.
+2019-05-24T01:36:54.330Z - debug: Resources not defined for this template.
+2019-05-24T01:36:54.331Z - debug: Base url not specified, skipping its injection.
+2019-05-24T01:36:54.332Z - warn: Error when processing render request Engine must be specified Error: Engine must be specified
+    at module.exports (C:\ws\todo\server\node_modules\jsreport-core\lib\util\createError.js:11:13)
+    at Reporter.createError (C:\ws\todo\server\node_modules\jsreport-core\lib\reporter.js:265:12)
+    at invokeRender (C:\ws\todo\server\node_modules\jsreport-core\lib\render\render.js:30:20)
+    at module.exports (C:\ws\todo\server\node_modules\jsreport-core\lib\render\render.js:133:11)

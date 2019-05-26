@@ -54,7 +54,6 @@ class CompaniesList extends Component {
     const {
       classes, companies, loading, errorMessage,
     } = this.props;
-    console.log(errorMessage);
     return (
       <div>
         <Alert text={errorMessage} type="danger" />

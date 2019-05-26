@@ -46,6 +46,7 @@ routes.put(
   usersController.enable,
 );
 
+routes.get('/api/points/', is('USER'), pointsController.index);
 routes.post('/api/points/', is('USER'), pointsController.registerPoint);
 
 /** Users */

@@ -5,7 +5,7 @@ const Company = require('../models/Company');
 const defaultPassword = bcrypt.hashSync('123456', 10);
 
 const onError = (error, res) => {
-  console.log(error);
+  console.error(error);
   res.status(500).send({ message: 'Ocorreu um erro durante a operação' });
 };
 

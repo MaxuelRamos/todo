@@ -1,6 +1,6 @@
 import { push } from 'react-router-redux';
 import { Creators as PointActions } from '../ducks/points';
-import { jsonPost } from '../utils/http';
+import { jsonPost, jsonFetch } from '../utils/http';
 
 const api = '/api/points';
 
@@ -14,5 +14,19 @@ export default function registerPoint(point) {
         dispatch(push('/me'));
       })
       .catch(error => dispatch(PointActions.pointFailure(error.message)));
+  };
+}
+
+export function loadPoints(date) {
+  return (dispatch) => {
+    dispatch(PointActions.pointRequest());
+
+    return jsonFetch(`${api}/?date=${date}`)
+      .then((json) => {
+        dispatch(PointActions.loadPointsSuccess(json));
+      })
+      .catch((error) => {
+        dispatch(PointActions.pointFailure(error.message));
+      });
   };
 }

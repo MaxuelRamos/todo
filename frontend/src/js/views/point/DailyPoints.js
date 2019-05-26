@@ -8,8 +8,10 @@ import Fab from '@material-ui/core/Fab';
 import ControlPoint from '@material-ui/icons/ControlPoint';
 import { withStyles } from '@material-ui/core/styles';
 import { DatePicker } from 'material-ui-pickers';
+import moment from 'moment';
 import { editUser } from '../../operators/usersOperator';
 import PointsList from './PointsList';
+import { loadPoints } from '../../operators/pointsOperator';
 
 const styles = theme => ({
   fab: {
@@ -25,30 +27,6 @@ const styles = theme => ({
   },
 });
 
-const pontos = [
-  {
-    id: 1,
-    timestamp: new Date(),
-    enabled: true,
-  },
-  {
-    id: 2,
-    timestamp: new Date(),
-    enabled: false,
-    comment: 'teste',
-  },
-  {
-    id: 3,
-    timestamp: new Date(),
-    enabled: true,
-  },
-  {
-    id: 4,
-    timestamp: new Date(),
-    enabled: true,
-  },
-];
-
 class Me extends Component {
   constructor(props) {
     super(props);
@@ -56,6 +34,12 @@ class Me extends Component {
     this.state = {
       date: new Date(),
     };
+  }
+
+  componentDidMount() {
+    const { loadPoints } = this.props;
+    const { date } = this.state;
+    loadPoints(moment(date).format('YYYY-MM-DD'));
   }
 
   onRegisterPointClick = () => {
@@ -68,9 +52,10 @@ class Me extends Component {
     editUser(authenticatedUser.id);
   };
 
-  onchangeDate = (moment) => {
-    console.log(moment.toDate());
-    this.setState({ date: moment.toDate() });
+  onchangeDate = (newDate) => {
+    this.setState({ date: newDate.toDate() });
+    const { loadPoints } = this.props;
+    loadPoints(newDate.format('YYYY-MM-DD'));
   };
 
   onDisablePoint = (point) => {
@@ -78,7 +63,7 @@ class Me extends Component {
   };
 
   render() {
-    const { loading, classes } = this.props;
+    const { loading, classes, points } = this.props;
     const { date } = this.state;
     return (
       <Grid container direction="row" spacing={8}>
@@ -101,7 +86,7 @@ class Me extends Component {
         </Grid>
 
         <Grid item xs={12}>
-          <PointsList points={pontos} onDisable={this.onDisablePoint} />
+          <PointsList points={points} onDisable={this.onDisablePoint} />
         </Grid>
       </Grid>
     );
@@ -111,13 +96,16 @@ class Me extends Component {
 Me.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   authenticatedUser: PropTypes.shape({}).isRequired,
+  points: PropTypes.arrayOf(PropTypes.shape({}).isRequired),
   loading: PropTypes.bool.isRequired,
   editUser: PropTypes.func.isRequired,
+  loadPoints: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
   loading: store.users.loading,
+  points: store.points.points,
   authenticatedUser: store.auth.authenticatedUser,
 });
 
@@ -125,6 +113,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
   {
     push,
     editUser,
+    loadPoints,
   },
   dispatch,
 );
