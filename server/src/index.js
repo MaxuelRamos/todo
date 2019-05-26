@@ -9,6 +9,8 @@ require('dotenv').config();
 
 const app = express();
 
+const port = process.env.PORT || '8081';
+
 const key = fs.readFileSync(`${__dirname}/certs/selfsigned.key`);
 const cert = fs.readFileSync(`${__dirname}/certs/selfsigned.crt`);
 
@@ -43,6 +45,6 @@ app.get('*', (req, res) => {
 
 https
   .createServer(options, app)
-  .listen(5000, () => console.log(`Listening on port ${5000}!!!!!`));
+  .listen(port, () => console.log(`Listening on port ${port}!!!!!`));
 
 module.exports = app;
