@@ -42,7 +42,9 @@ app.use(require('./routes'));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
-
+app.configure(() => {
+  app.set('port', process.env.PORT || 8081);
+});
 https
   .createServer(options, app)
   .listen(port, () => console.log(`Listening on port ${port}!!!!!`));
