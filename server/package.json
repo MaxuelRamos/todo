@@ -7,7 +7,8 @@
     "test": "SET NODE_ENV=test && SET DATABASE_NAME=ponto-test && mocha",
     "dev": "SET NODE_ENV=development && concurrently --kill-others-on-fail \"nodemon --inspect src/index.js\" \"cd ..\\frontend\\ && yarn start\"",
     "migrate": "node ./src/db/callMigrations.js",
-    "clean": "node ./src/db/clean.js"
+    "clean": "node ./src/db/clean.js",
+    "start": "node src/index.js"
   },
   "dependencies": {
     "async": "^2.6.2",
