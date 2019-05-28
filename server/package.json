@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "node ./node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=test && SET DATABASE_NAME=ponto-test && mocha",
+    "test": "node ./node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=test && node ./node_modules/cross-env/dist/bin/cross-env.js DATABASE_NAME=ponto-test && mocha",
     "dev": "SET NODE_ENV=development && concurrently --kill-others-on-fail \"nodemon --inspect src/index.js\" \"cd ..\\frontend\\ && yarn start\"",
     "migrate": "node ./src/db/callMigrations.js",
     "clean": "node ./src/db/clean.js",
