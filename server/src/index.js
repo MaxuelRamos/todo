@@ -35,13 +35,11 @@ app.use(bodyParser.json());
 if (process.env.NODE_ENV === 'dev ') {
   app.use(morgan('dev'));
 }
-// Serve any static files
-app.use(express.static(path.join(__dirname, '../public')));
+app.get('/teste', (req, res) => {
+  res.send('Hello');
+});
 app.use(require('./routes'));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public', 'index.html'));
-});
 // https
 //   .createServer(options, app)
 //   .listen(port, () => console.log(`Listening on port ${port}!!!!!`));
