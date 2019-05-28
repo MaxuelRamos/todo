@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "SET NODE_ENV=test && SET DATABASE_NAME=ponto-test && mocha",
+    "test": "node ./node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=test && SET DATABASE_NAME=ponto-test && mocha",
     "dev": "SET NODE_ENV=development && concurrently --kill-others-on-fail \"nodemon --inspect src/index.js\" \"cd ..\\frontend\\ && yarn start\"",
     "migrate": "node ./src/db/callMigrations.js",
     "clean": "node ./src/db/clean.js",
@@ -37,6 +37,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "mocha": "^6.1.4",
     "nodemon": "^1.18.10",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "cross-env": "^5.2.0"
   }
 }
