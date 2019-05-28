@@ -7,6 +7,5 @@ jobs: # a collection of steps
     # ...with this image as the primary container; this is where all `steps` will run
     steps: # a collection of executable commands
       - checkout
-      - run: cd ./server
-      - run: npm install
-      - run: npm test
+      - run: cd ./server && npm install
+      - run: cd ./server && npm test
